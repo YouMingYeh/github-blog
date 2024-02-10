@@ -26,6 +26,8 @@ const ToasterProvider = () => {
   return <Toaster theme={theme} />;
 };
 
+import { SessionProvider } from "next-auth/react";
+
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
@@ -43,7 +45,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         }}
       >
         <ToasterProvider />
-        {children}
+        <SessionProvider>{children}</SessionProvider>
         <Analytics />
       </AppContext.Provider>
     </ThemeProvider>

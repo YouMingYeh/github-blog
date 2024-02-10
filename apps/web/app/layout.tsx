@@ -5,6 +5,11 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Providers from "./providers";
 
+import AuthButton from "@/components/auth-button";
+import Menu from "@/components/ui/menu";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { ModeToggle } from "@/components/ModeToggle";
+
 const title =
   "Novel - Notion-style WYSIWYG editor with AI-powered autocompletions";
 const description =
@@ -34,7 +39,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="absolute right-1 top-1">
+            {/* @ts-expect-error Server Component */}
+            <AuthButton />
+          </div>
+          <div className="absolute left-1 top-1">
+            <ModeToggle />
+          </div>
+          {children}
+        </Providers>
       </body>
     </html>
   );
