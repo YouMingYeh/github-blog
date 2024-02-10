@@ -187,7 +187,6 @@ export default function Page() {
               extensions={extensions}
               content={content}
               className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
-              defaultValue={defaultEditorContent}
               editorProps={{
                 ...defaultEditorProps,
                 attributes: {
