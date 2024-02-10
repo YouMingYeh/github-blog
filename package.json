@@ -1,0 +1,21 @@
+{
+  "name": "novel",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "release": "turbo build && cd packages/core && npm publish && cd ../../"
+  },
+  "dependencies": {
+    "turbo": "^1.9.3"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.27",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0"
+  }
+}
