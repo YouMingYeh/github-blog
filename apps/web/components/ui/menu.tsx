@@ -46,7 +46,7 @@ export default function Menu() {
     <Popover>
       <PopoverTrigger
         asChild
-        className="absolute bottom-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-200 sm:bottom-auto sm:top-5"
+        className="fixed bottom-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-200 sm:bottom-auto"
       >
         <Button variant="ghost" size="icon">
           <MenuIcon width={16} />

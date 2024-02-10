@@ -10,7 +10,7 @@ export default async function AuthButton() {
 
   if (!session) {
     return (
-      <Button asChild size="icon">
+      <Button variant="outline" asChild size="icon">
         <Link href={"/api/auth/signin"}>
           <LogInIcon />
         </Link>
@@ -20,7 +20,7 @@ export default async function AuthButton() {
 
   return (
     <div className="flex gap-2">
-      <Button asChild size="icon">
+      <Button asChild size="icon" variant="outline">
         <Link href={"/api/auth/signout"}>
           <LogOutIcon />
         </Link>

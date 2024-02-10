@@ -40,11 +40,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <div className="absolute right-1 top-1">
+          <div className="fixed right-1 top-1">
             {/* @ts-expect-error Server Component */}
             <AuthButton />
           </div>
-          <div className="absolute left-1 top-1">
+          <div className="fixed left-1 top-1">
             <ModeToggle />
           </div>
           {children}

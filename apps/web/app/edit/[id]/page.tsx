@@ -44,7 +44,6 @@ import { defaultEditorContent } from "@/lib/content";
 import { AISelector } from "@/lib/selectors/ai-selector";
 import Magic from "@/components/ui/icons/magic";
 import { Button } from "@/components/ui/button";
-import Menu from "@/components/ui/menu";
 import { Separator } from "@/components/ui/separator";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
 import { useDebouncedCallback } from "use-debounce";
@@ -94,7 +93,6 @@ export default function Page() {
     const token = localStorage.getItem("token");
     const response = await updateIssue(Number(id), title, html, token);
     const issue = await response.json();
-    alert("Saved");
     console.log(issue);
     setSaveStatus("Saved");
   }, autoSaveInterval * 1000);
@@ -158,9 +156,8 @@ export default function Page() {
           </DialogHeader>
         </DialogContent>
       </Dialog> */}
-      <Menu />
-      <div className="relative w-full max-w-screen-lg">
-        <div className="absolute left-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
+      <div className=" w-full max-w-screen-lg">
+        <div className="fixed left-5 top-20 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           <label>Auto Save Interval: </label>
           <input
             value={autoSaveInterval}
@@ -173,11 +170,11 @@ export default function Page() {
           <label>secs </label>
         </div>
 
-        <div className="absolute right-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
+        <div className="fixed right-5 top-20 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
         <input
-          className="w-full py-8 text-center text-6xl focus:outline-none"
+          className="w-full bg-background py-8 text-center text-6xl focus:outline-none"
           defaultValue={title}
           placeholder="Title"
           onChange={(e) => {

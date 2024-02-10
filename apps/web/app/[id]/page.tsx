@@ -1,16 +1,5 @@
 "use client";
 
-import { Github } from "@/components/ui/icons";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
 import {
   defaultEditorProps,
   Editor,
@@ -34,21 +23,13 @@ import {
   starterKit,
   placeholder,
 } from "@/lib/extensions";
-import { NodeSelector } from "@/lib/selectors/node-selector";
-import { LinkSelector } from "@/lib/selectors/link-selector";
-import { ColorSelector } from "@/lib/selectors/color-selector";
-import TextButtons from "@/lib/selectors/text-buttons";
+
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
 import { defaultEditorContent } from "@/lib/content";
-import { AISelector } from "@/lib/selectors/ai-selector";
-import Magic from "@/components/ui/icons/magic";
-import { Button } from "@/components/ui/button";
+
 import Menu from "@/components/ui/menu";
-import { Separator } from "@/components/ui/separator";
-import useLocalStorage from "@/lib/hooks/use-local-storage";
-import { useDebouncedCallback } from "use-debounce";
-import { SaveAllIcon } from "lucide-react";
+
 import { useParams } from "next/navigation";
 import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
 import { getIssue, updateIssue } from "@/lib/github-issues-api";
@@ -69,18 +50,6 @@ export default function Page() {
   const params = useParams();
   const { id } = params;
   const [content, setContent] = useState<JSONContent | null>();
-
-  // const [content, setContent] = useLocalStorage<JSONContent | null>(
-  //   "novel-content",
-  //   defaultEditorContent,
-  // );[]
-  const [saveStatus, setSaveStatus] = useState("Saved");
-
-  const [openNode, setOpenNode] = useState(false);
-  const [openColor, setOpenColor] = useState(false);
-  const [openLink, setOpenLink] = useState(false);
-  const [openAI, setOpenAI] = useState(false);
-  const [autoSaveInterval, setAutoSaveInterval] = useState(60);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
@@ -103,8 +72,7 @@ export default function Page() {
             <EditorContent
               extensions={extensions}
               content={content}
-              className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
-              defaultValue={defaultEditorContent}
+              className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background shadow-none  "
               editorProps={{
                 ...defaultEditorProps,
                 attributes: {
