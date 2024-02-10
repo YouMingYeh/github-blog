@@ -64,7 +64,6 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
-      <Menu />
       <div className="relative w-full max-w-screen-lg">
         <div className="w-full py-8 text-center text-6xl ">{title}</div>
         <EditorRoot>

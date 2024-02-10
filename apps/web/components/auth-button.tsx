@@ -1,4 +1,4 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 
 import { Button } from "./ui/button";

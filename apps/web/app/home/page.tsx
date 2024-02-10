@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { auth } from "../api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function HomePage() {
