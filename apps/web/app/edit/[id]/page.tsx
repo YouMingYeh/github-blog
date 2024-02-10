@@ -47,7 +47,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
 import { useDebouncedCallback } from "use-debounce";
-import { SaveAllIcon } from "lucide-react";
+import { EditIcon, SaveAllIcon, ViewIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
 import { getIssue, updateIssue } from "@/lib/github-issues-api";
@@ -65,6 +65,7 @@ const extensions = [
 ];
 
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Page() {
   const params = useParams();
@@ -115,7 +116,8 @@ export default function Page() {
   if (!session) {
     return (
       <div className="flex h-screen flex-col items-center justify-center ">
-        <p className="text-2xl">You need to sign in to edit the page</p>
+        <p className="text-2xl">Fetching session...</p>
+        <p className="text-2xl">Or, you need to sign in to edit the page</p>
 
         <Button
           onClick={() => {
@@ -131,6 +133,13 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
+      <div className="fixed bottom-1 right-1">
+        <Button size="icon" onClick={() => {}}>
+          <Link href={`/${id}`}>
+            <ViewIcon />
+          </Link>
+        </Button>
+      </div>
       <Button
         variant="outline"
         className="absolute bottom-5 left-5 "
@@ -157,7 +166,7 @@ export default function Page() {
         </DialogContent>
       </Dialog> */}
       <div className=" w-full max-w-screen-lg">
-        <div className="fixed left-5 top-20 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
+        <div className="fixed left-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
           <label>Auto Save Interval: </label>
           <input
             value={autoSaveInterval}
@@ -170,7 +179,7 @@ export default function Page() {
           <label>secs </label>
         </div>
 
-        <div className="fixed right-5 top-20 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
+        <div className="fixed right-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
           {saveStatus}
         </div>
         <input

@@ -33,6 +33,9 @@ import Menu from "@/components/ui/menu";
 import { useParams } from "next/navigation";
 import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
 import { getIssue, updateIssue } from "@/lib/github-issues-api";
+import { EditIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const extensions = [
   starterKit,
@@ -64,6 +67,13 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
+      <div className="fixed bottom-1 right-1">
+        <Button size="icon" onClick={() => {}}>
+          <Link href={`/edit/${id}`}>
+            <EditIcon />
+          </Link>
+        </Button>
+      </div>
       <div className="relative w-full max-w-screen-lg">
         <div className="w-full py-8 text-center text-6xl ">{title}</div>
         <EditorRoot>
