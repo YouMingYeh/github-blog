@@ -1,30 +1,29 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import { getIssues } from "@/lib/github-issues-api";
 import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+
+const SCROLL_THRESHOLD = 80;
+const PER_PAGE = 10;
+const DIRECTION = "asc";
+const FETCH_DELAY = 5000;
 
 export default function Page() {
-  const [issues, setIssues] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [issues, setIssues] = useState<GitHubIssue[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const router = useRouter();
 
   const searchParams = useSearchParams();
 
   const scrollPosition = useScrollPosition();
 
   useEffect(() => {
-    if (searchParams.get("page")) {
-      router.replace("/");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (scrollPosition > 80) {
+    if (scrollPosition > SCROLL_THRESHOLD) {
       const nextPage = currentPage + 1;
 
       router.push(`?page=${nextPage}`, { scroll: false });
@@ -35,10 +34,12 @@ export default function Page() {
   const fetchData = async () => {
     const params = {
       page: searchParams.get("page"),
-      per_page: "10",
-      direction: "asc",
+      per_page: String(PER_PAGE),
+      direction: DIRECTION,
     };
-    const issues = await getIssues(params);
+
+    const token = localStorage.getItem("token");
+    const issues = await getIssues(token, params);
 
     if (issues.length === 0 || !issues.length) {
       return;
@@ -58,10 +59,13 @@ export default function Page() {
     if (!loading) return;
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, FETCH_DELAY);
   }, [loading]);
 
   useEffect(() => {
+    if (searchParams.get("page")) {
+      router.replace("/", { scroll: false });
+    }
     if (!loading) return;
     fetchData();
   }, [searchParams]);

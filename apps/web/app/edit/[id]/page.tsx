@@ -38,7 +38,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
-import { deleteIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
+import { closeIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
 
 const extensions = [
   starterKit,
@@ -55,54 +55,62 @@ const extensions = [
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
+import type { Session } from "next-auth";
+
+type SessionWithToken = Session & { token: string };
 
 export default function Page() {
-  const params = useParams();
-  const { id } = params;
-  const [content, setContent] = useState<JSONContent | null>();
-  const { data: session }: any = useSession();
-
+  const { id } = useParams();
+  const { data } = useSession();
+  const session = data as SessionWithToken;
   const router = useRouter();
+
+  // Editor State
+  const [content, setContent] = useState<JSONContent | null>(null);
+  const [title, setTitle] = useState("");
+  const [htmlContent, setHtmlContent] = useState("");
   const [saveStatus, setSaveStatus] = useState("Saved");
 
+  // UI State
+  const [loading, setLoading] = useState(true);
+  const [autoSaveInterval, setAutoSaveInterval] = useState(60);
+
+  // Feature Toggle State
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
-  const [autoSaveInterval, setAutoSaveInterval] = useState(60);
-  const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [htmlContent, setHtmlContent] = useState("");
 
+  // Fetch and update issue content
   const updateRemote = useCallback(async () => {
     const token = localStorage.getItem("token");
-    const issue = await updateIssue(Number(id), title, htmlContent, token);
+    await updateIssue(Number(id), { title, body: htmlContent }, token);
     setSaveStatus("Saved");
     router.refresh();
-  }, [id, title, htmlContent]);
+  }, [id, title, htmlContent, router]);
 
-  const debouncedUpdates = useDebouncedCallback(
-    async (editor: Editor, title) => {
-      const json = editor.getJSON();
-      setContent(json);
+  const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
+    const json = editor.getJSON();
+    setContent(json);
 
-      const html = editor.getHTML();
-      setHtmlContent(html);
-      await updateRemote();
-    },
-    autoSaveInterval * 1000,
-  );
+    const html = editor.getHTML();
+    setHtmlContent(html);
+    await updateRemote();
+  }, autoSaveInterval * 1000);
 
+  // Initial data fetch
   useEffect(() => {
-    (async () => {
-      const issue = await getIssue(Number(id));
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      const issue = await getIssue(Number(id), token);
       setHtmlContent(issue.body);
-      const json = generateJSON(issue.body, extensions);
-      setContent(json);
+      setContent(generateJSON(issue.body, extensions));
       setTitle(issue.title);
       setLoading(false);
-    })();
-  }, []);
+    };
+
+    fetchData();
+  }, [id]);
 
   useEffect(() => {
     localStorage.setItem("token", session?.token);
@@ -120,7 +128,7 @@ export default function Page() {
     return (
       <div className="flex h-screen flex-col items-center justify-center ">
         <p className="text-2xl">Fetching session...</p>
-        <p className="text-2xl">Or, you need to sign in to edit the page</p>
+        <p className="text-xl">Or, you need to sign in to edit the page</p>
 
         <Button
           onClick={() => {
@@ -136,7 +144,8 @@ export default function Page() {
 
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
-      await deleteIssue(Number(id), localStorage.getItem("token"));
+      const token = localStorage.getItem("token");
+      const issue = await closeIssue(Number(id), token);
       router.refresh();
       window.location.replace("/");
     }
@@ -172,7 +181,7 @@ export default function Page() {
         <TrashIcon />
       </Button>
       {loading ? (
-        <div className="h-full w-full justify-center align-middle">
+        <div className="flex h-screen w-screen justify-center align-middle">
           <LoadingCircle />
         </div>
       ) : (
@@ -215,7 +224,7 @@ export default function Page() {
                   },
                 }}
                 onUpdate={({ editor }) => {
-                  debouncedUpdates(editor, title);
+                  debouncedUpdates(editor);
                   setSaveStatus("Unsaved");
                 }}
                 slotAfter={<ImageResizer />}

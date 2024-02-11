@@ -53,7 +53,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </Button>
             </Link>
           </div>
-          {children}
+          <div className="flex h-screen w-screen items-center justify-center align-middle">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

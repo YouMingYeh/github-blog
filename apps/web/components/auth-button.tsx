@@ -82,7 +82,11 @@ async function AddForm({
     "use server";
     const title = formData.get("title") as string;
     const body = formData.get("body") as string;
-    const newIssue = await createIssue(title, body, token);
+    const issueToCreate: GitHubIssue = {
+      title,
+      body,
+    };
+    const newIssue = await createIssue(issueToCreate, token);
     revalidatePath(`/`, "layout");
     redirect(`/posts/${newIssue.number}`);
   }
