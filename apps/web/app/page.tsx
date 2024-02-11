@@ -5,11 +5,9 @@ export default async function Page() {
   const response = await getIssues();
 
   const issues = await response.json();
-  console.log(issues);
 
   const items = issues.map((issue) => {
     ("use server");
-    console.log(issue);
     return {
       title: issue.title,
       description: issue.body.slice(0, 100) + "...",

@@ -97,7 +97,6 @@ export default function Page() {
     const token = localStorage.getItem("token");
     const response = await updateIssue(Number(id), title, html, token);
     const issue = await response.json();
-    console.log(issue);
     setSaveStatus("Saved");
   }, autoSaveInterval * 1000);
 
