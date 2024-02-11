@@ -15,6 +15,17 @@
 </p>
 <br/>
 
+## Playground
+Explore the application here. This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog.
+
+- Self-Hosted Blog: Configured via the .env file using `GITHUB_REPO` and `GITHUB_OWNER`, this mode personalizes the blog to your specific GitHub repository. It's designed for individual users who prefer a dedicated space for their content.
+
+- Platform Blog: By specifying the repository details in the URL, like https://github-blog-blue.vercel.app/YouMingYeh/github-blog, the platform blog mode allows for dynamic content sourcing directly from any GitHub repository. This flexibility is perfect for showcasing various projects or collaborating across different repositories.
+
+Visiting https://github-blog-blue.vercel.app displays the content from the YouMingYeh/github-blog repository, mirroring the production environment setup. Alternatively, navigating to https://github-blog-blue.vercel.app/YouMingYeh/github-blog accesses the same repository content through the platform blog mode, with an easy-to-use interface for exploring or switching between repositories.
+
+While you have the option to streamline the application by removing the unused version, retaining both provides a comprehensive understanding and flexibility in managing and displaying content. The dual functionality caters to a wide range of use cases, from personal blogging to showcasing projects or documentation in a collaborative setting.
+
 ## Features
 1. **WYSIWYG Editor**: A Notion-style WYSIWYG editor that allows you to write and edit content.
 2. **GitHub Issues as Database**: Utilizes GitHub Issues API as its backend database.
@@ -60,7 +71,7 @@ Make sure you have fill in the environment variables in `.env.example` and renam
 
 ## Tech Stack
 
-Novel is built on the following stack:
+This app is built on the following stack:
 
 - [Next.js](https://nextjs.org/) – framework
 - [Tiptap](https://tiptap.dev/) – text editor
