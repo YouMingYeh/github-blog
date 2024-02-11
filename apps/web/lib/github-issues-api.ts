@@ -43,16 +43,18 @@ export const getIssues = async (params?: Record<string, string>) => {
 };
 
 export const getIssue = async (issue_number: number) => {
-  const response = await fetch(
+  const url = new URL(
     `https://api.github.com/repos/${owner}/${repo}/issues/${issue_number}`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    },
   );
+  url.searchParams.append("state", "open");
+
+  const response = await fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
   return response;
 };
 

@@ -142,11 +142,11 @@ export default function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
-        <Button size="icon" onClick={() => {}}>
-          <Link href={`/${id}`}>
+        <Link href={`/${id}`}>
+          <Button size="icon" onClick={() => {}}>
             <ViewIcon />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
       <Button
         variant="outline"

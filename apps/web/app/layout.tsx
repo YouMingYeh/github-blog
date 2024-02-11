@@ -36,11 +36,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Providers>
           <div className="fixed right-1 top-1 z-20 flex gap-1">
-            <Button size="icon" variant="outline" className="">
-              <Link href="/">
+            <Link href="/">
+              <Button size="icon" variant="outline" className="">
                 <HomeIcon />
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             {/* @ts-expect-error Server Component */}
             <AuthButton />
           </div>
