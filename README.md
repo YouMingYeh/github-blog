@@ -15,6 +15,13 @@
 </p>
 <br/>
 
+## Features
+1. **WYSIWYG Editor**: A Notion-style WYSIWYG editor that allows you to write and edit content.
+2. **GitHub Issues as Database**: Utilizes GitHub Issues API as its backend database.
+3. **SEO Enhancement**: Use server-side rendering to improve SEO. See [My Implementation](https://github.com/YouMingYeh/github-blog/tree/main/apps/web/app/posts/%5Bid%5D) with Next.js.
+4. **GitHub App**: Use GitHub App with OAuth to authenticate users.
+5. **Infinite Scrolling with Pagination**: Use GitHub Issues API to implement infinite scrolling with pagination.
+
 ## Introduction
 
 [GitHub Blog](https://github-blog-blue.vercel.app) is a dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database.
@@ -66,3 +73,6 @@ Novel is built on the following stack:
 - [GitHub OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps) – authentication
 - [GitHub Issues](https://docs.github.com/en/issues) – database
 - [Shadcn/ui](https://ui.shadcn.com/) – components
+
+## References
+Special thanks to [Novel](https://novel.sh/) for the template for the nice editor.
