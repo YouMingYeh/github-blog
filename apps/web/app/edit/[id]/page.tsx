@@ -22,7 +22,7 @@ import {
   EditorContent,
   type JSONContent,
 } from "novel";
-import { use, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import {
   taskItem,
   taskList,
@@ -86,24 +86,35 @@ export default function Page() {
   const [openAI, setOpenAI] = useState(false);
   const [autoSaveInterval, setAutoSaveInterval] = useState(60);
   const [title, setTitle] = useState("");
-  const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [htmlContent, setHtmlContent] = useState("");
 
-  const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
-    const json = editor.getJSON();
-    setContent(json);
-
-    const html = editor.getHTML();
+  const updateRemote = useCallback(async () => {
     const token = localStorage.getItem("token");
-    const response = await updateIssue(Number(id), title, html, token);
+    console.log(title, htmlContent, token);
+    const response = await updateIssue(Number(id), title, htmlContent, token);
     const issue = await response.json();
     setSaveStatus("Saved");
-  }, autoSaveInterval * 1000);
+    console.log(issue);
+  }, [id, title, htmlContent]);
+
+  const debouncedUpdates = useDebouncedCallback(
+    async (editor: Editor, title) => {
+      const json = editor.getJSON();
+      setContent(json);
+
+      const html = editor.getHTML();
+      setHtmlContent(html);
+      await updateRemote();
+    },
+    autoSaveInterval * 1000,
+  );
 
   useEffect(() => {
     (async () => {
       const response = await getIssue(Number(id));
       const issue = await response.json();
+      setHtmlContent(issue.body);
       const json = generateJSON(issue.body, extensions);
       setContent(json);
       setTitle(issue.title);
@@ -114,6 +125,14 @@ export default function Page() {
   useEffect(() => {
     localStorage.setItem("token", session?.token);
   }, [session]);
+
+  useEffect(() => {
+    (async () => {
+      if (saveStatus === "Saving...") {
+        await updateRemote();
+      }
+    })();
+  }, [saveStatus]);
 
   if (!session) {
     return (
@@ -148,6 +167,7 @@ export default function Page() {
         size="icon"
         onClick={() => {
           debouncedUpdates.flush();
+          setSaveStatus("Saving...");
         }}
       >
         {" "}
@@ -178,6 +198,7 @@ export default function Page() {
             defaultValue={title}
             placeholder="Title"
             onChange={(e) => {
+              setSaveStatus("Unsaved");
               setTitle(e.target.value);
             }}
           ></input>
@@ -194,7 +215,7 @@ export default function Page() {
                   },
                 }}
                 onUpdate={({ editor }) => {
-                  debouncedUpdates(editor);
+                  debouncedUpdates(editor, title);
                   setSaveStatus("Unsaved");
                 }}
                 slotAfter={<ImageResizer />}
