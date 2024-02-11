@@ -19,7 +19,7 @@
 <br/>
 
 ## Playground
-Explore the application here. This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog.
+Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog.
 
 - Self-Hosted Blog: Configured via the .env file using `GITHUB_REPO` and `GITHUB_OWNER`, this mode personalizes the blog to your specific GitHub repository. It's designed for individual users who prefer a dedicated space for their content.
 
