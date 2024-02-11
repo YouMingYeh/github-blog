@@ -66,6 +66,7 @@ const extensions = [
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import LoadingCircle from "@/components/ui/icons/loading-circle";
 
 export default function Page() {
   const params = useParams();
@@ -85,6 +86,8 @@ export default function Page() {
   const [openAI, setOpenAI] = useState(false);
   const [autoSaveInterval, setAutoSaveInterval] = useState(60);
   const [title, setTitle] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
@@ -105,11 +108,11 @@ export default function Page() {
       const json = generateJSON(issue.body, extensions);
       setContent(json);
       setTitle(issue.title);
+      setLoading(false);
     })();
   }, []);
 
   useEffect(() => {
-    console.log(session);
     localStorage.setItem("token", session?.token);
   }, [session]);
 
@@ -133,7 +136,7 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
-      <div className="fixed bottom-1 right-1">
+      <div className="fixed bottom-5 right-5 z-10">
         <Button size="icon" onClick={() => {}}>
           <Link href={`/${id}`}>
             <ViewIcon />
@@ -142,7 +145,7 @@ export default function Page() {
       </div>
       <Button
         variant="outline"
-        className="absolute bottom-5 left-5 "
+        className="fixed bottom-5 left-5 z-10"
         size="icon"
         onClick={() => {
           debouncedUpdates.flush();
@@ -151,132 +154,130 @@ export default function Page() {
         {" "}
         <SaveAllIcon />
       </Button>
-      {/* <Dialog>
-        <DialogTrigger className="absolute bottom-5 left-5 z-10 max-h-fit rounded-lg p-2 transition-colors duration-200 sm:bottom-auto sm:top-5">
-          <SaveAllIcon />
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you sure to save to the GitHub Issue?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog> */}
-      <div className=" w-full max-w-screen-lg">
-        <div className="fixed left-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
-          <label>Auto Save Interval: </label>
+      {loading ? (
+        <LoadingCircle />
+      ) : (
+        <div className=" w-full max-w-screen-lg">
+          <div className="fixed left-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
+            <label>Auto Save Interval: </label>
+            <input
+              value={autoSaveInterval}
+              name="autoSaveInterval"
+              onChange={(e) => {
+                setAutoSaveInterval(Number(e.target.value));
+              }}
+              className="w-10 bg-background px-1 text-center text-muted-foreground"
+            />
+            <label>secs </label>
+          </div>
+
+          <div className="fixed right-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
+            {saveStatus}
+          </div>
           <input
-            value={autoSaveInterval}
-            name="autoSaveInterval"
+            className="w-full bg-background py-8 text-center text-6xl focus:outline-none"
+            defaultValue={title}
+            placeholder="Title"
             onChange={(e) => {
-              setAutoSaveInterval(Number(e.target.value));
+              setTitle(e.target.value);
             }}
-            className="w-10 bg-background px-1 text-center text-muted-foreground"
-          />
-          <label>secs </label>
-        </div>
-
-        <div className="fixed right-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
-          {saveStatus}
-        </div>
-        <input
-          className="w-full bg-background py-8 text-center text-6xl focus:outline-none"
-          defaultValue={title}
-          placeholder="Title"
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        ></input>
-        <EditorRoot>
-          {content && (
-            <EditorContent
-              extensions={extensions}
-              content={content}
-              className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
-              editorProps={{
-                ...defaultEditorProps,
-                attributes: {
-                  class: `prose-lg prose-stone dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
-                },
-              }}
-              onUpdate={({ editor }) => {
-                debouncedUpdates(editor);
-                setSaveStatus("Unsaved");
-              }}
-              slotAfter={<ImageResizer />}
-            >
-              <EditorCommand className="z-50 h-auto max-h-[330px]  w-72 overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
-                <EditorCommandEmpty className="px-2 text-muted-foreground">
-                  No results
-                </EditorCommandEmpty>
-                {suggestionItems.map((item) => (
-                  <EditorCommandItem
-                    value={item.title}
-                    onCommand={(val) => item.command(val)}
-                    className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent `}
-                    key={item.title}
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p className="font-medium">{item.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {item.description}
-                      </p>
-                    </div>
-                  </EditorCommandItem>
-                ))}
-              </EditorCommand>
-
-              <EditorBubble
-                tippyOptions={{
-                  placement: openAI ? "bottom-start" : "top",
-                  onHidden: () => {
-                    setOpenAI(false);
+          ></input>
+          <EditorRoot>
+            {content ? (
+              <EditorContent
+                extensions={extensions}
+                content={content}
+                className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
+                editorProps={{
+                  ...defaultEditorProps,
+                  attributes: {
+                    class: `prose-lg prose-stone dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
                   },
                 }}
-                className="flex w-fit max-w-[90vw] overflow-hidden rounded border border-muted bg-background shadow-xl"
+                onUpdate={({ editor }) => {
+                  debouncedUpdates(editor);
+                  setSaveStatus("Unsaved");
+                }}
+                slotAfter={<ImageResizer />}
               >
-                {openAI ? (
-                  <AISelector open={openAI} onOpenChange={setOpenAI} />
-                ) : (
-                  <>
-                    <Button
-                      variant="ghost"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpenAI(!openAI);
-                      }}
-                      className="items-center justify-between gap-2 rounded-none"
+                <EditorCommand className="z-50 h-auto max-h-[330px]  w-72 overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
+                  <EditorCommandEmpty className="px-2 text-muted-foreground">
+                    No results
+                  </EditorCommandEmpty>
+                  {suggestionItems.map((item) => (
+                    <EditorCommandItem
+                      value={item.title}
+                      onCommand={(val) => item.command(val)}
+                      className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent `}
+                      key={item.title}
                     >
-                      <Magic className="h-5 w-5" /> Ask AI
-                    </Button>
-                    <Separator orientation="vertical" />
-                    <NodeSelector open={openNode} onOpenChange={setOpenNode} />
-                    <Separator orientation="vertical" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <p className="font-medium">{item.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {item.description}
+                        </p>
+                      </div>
+                    </EditorCommandItem>
+                  ))}
+                </EditorCommand>
 
-                    <LinkSelector open={openLink} onOpenChange={setOpenLink} />
+                <EditorBubble
+                  tippyOptions={{
+                    placement: openAI ? "bottom-start" : "top",
+                    onHidden: () => {
+                      setOpenAI(false);
+                    },
+                  }}
+                  className="flex w-fit max-w-[90vw] overflow-hidden rounded border border-muted bg-background shadow-xl"
+                >
+                  {openAI ? (
+                    <AISelector open={openAI} onOpenChange={setOpenAI} />
+                  ) : (
+                    <>
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setOpenAI(!openAI);
+                        }}
+                        className="items-center justify-between gap-2 rounded-none"
+                      >
+                        <Magic className="h-5 w-5" /> Ask AI
+                      </Button>
+                      <Separator orientation="vertical" />
+                      <NodeSelector
+                        open={openNode}
+                        onOpenChange={setOpenNode}
+                      />
+                      <Separator orientation="vertical" />
 
-                    <Separator orientation="vertical" />
+                      <LinkSelector
+                        open={openLink}
+                        onOpenChange={setOpenLink}
+                      />
 
-                    <TextButtons />
-                    <Separator orientation="vertical" />
+                      <Separator orientation="vertical" />
 
-                    <ColorSelector
-                      open={openColor}
-                      onOpenChange={setOpenColor}
-                    />
-                  </>
-                )}
-              </EditorBubble>
-            </EditorContent>
-          )}
-        </EditorRoot>
-      </div>
+                      <TextButtons />
+                      <Separator orientation="vertical" />
+
+                      <ColorSelector
+                        open={openColor}
+                        onOpenChange={setOpenColor}
+                      />
+                    </>
+                  )}
+                </EditorBubble>
+              </EditorContent>
+            ) : (
+              <LoadingCircle />
+            )}
+          </EditorRoot>
+        </div>
+      )}
     </div>
   );
 }
