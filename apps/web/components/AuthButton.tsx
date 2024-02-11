@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 
 export default async function AuthButton() {
-  const session: any = await auth();
+  const session: SessionWithToken = await auth();
 
   if (!session) {
     return (

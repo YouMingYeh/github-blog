@@ -56,9 +56,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
-
-// Type for my custom session with token
-declare type SessionWithToken = Session & { token: string };
+import IssueComments from "@/components/IssueComments";
 
 export default function Page() {
   const { id } = useParams();
@@ -131,14 +129,14 @@ export default function Page() {
         <p className="text-2xl">Fetching session...</p>
         <p className="text-xl">Or, you need to sign in to edit the page</p>
 
-        <Button
-          onClick={() => {
-            window.location.href = "/api/auth/signin";
-          }}
-          className="hover:bg-accent-hover flex items-center gap-2"
-        >
-          <Github /> Sign in with GitHub
-        </Button>
+        <Link href="/api/auth/signin">
+          <Button
+            variant="outline"
+            className="hover:bg-accent-hover flex items-center gap-2"
+          >
+            <Github /> Sign in with GitHub
+          </Button>
+        </Link>
       </div>
     );
   }
@@ -148,7 +146,7 @@ export default function Page() {
       const token = localStorage.getItem("token");
       const issue = await closeIssue(Number(id), token);
       router.refresh();
-      window.location.replace("/");
+      router.replace("/");
     }
   }
 
@@ -297,6 +295,7 @@ export default function Page() {
           </EditorRoot>
         </div>
       )}
+      <IssueComments />
     </div>
   );
 }

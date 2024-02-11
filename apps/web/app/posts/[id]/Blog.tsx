@@ -9,7 +9,7 @@ import {
   EditorContent,
   type JSONContent,
 } from "novel";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {
   taskItem,
   taskList,
@@ -30,6 +30,7 @@ import { generateJSON } from "@tiptap/react";
 import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import IssueComments from "@/components/IssueComments";
 
 const extensions = [
   starterKit,
@@ -110,6 +111,7 @@ export default function Blog({
           )}
         </EditorRoot>
       </div>
+      <IssueComments />
     </div>
   );
 }

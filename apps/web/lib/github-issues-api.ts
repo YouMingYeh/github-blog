@@ -114,3 +114,13 @@ export const closeIssue = async (
     token,
   });
 };
+
+export const getIssueComments = async (
+  issue_number: number,
+  token: string,
+): GitHubResponse<IssueComment[]> => {
+  return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
+    method: "GET",
+    token,
+  });
+};
