@@ -57,7 +57,8 @@ import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
 
-type SessionWithToken = Session & { token: string };
+// Type for my custom session with token
+declare type SessionWithToken = Session & { token: string };
 
 export default function Page() {
   const { id } = useParams();
@@ -89,10 +90,10 @@ export default function Page() {
     router.refresh();
   }, [id, title, htmlContent, router]);
 
+  // Debounce updates
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
     setContent(json);
-
     const html = editor.getHTML();
     setHtmlContent(html);
     await updateRemote();

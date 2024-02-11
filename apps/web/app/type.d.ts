@@ -13,5 +13,3 @@ type FetchOptions = {
 };
 
 type GitHubResponse<T> = Promise<T>;
-
-type UndefinedOrNull = undefined | null | "undefined" | "null";

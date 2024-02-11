@@ -2,16 +2,14 @@
 
 import {
   defaultEditorProps,
-  Editor,
   EditorRoot,
-  EditorBubble,
   EditorCommand,
   EditorCommandItem,
   EditorCommandEmpty,
   EditorContent,
   type JSONContent,
 } from "novel";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   taskItem,
   taskList,
@@ -28,7 +26,7 @@ import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
 
 import { useParams } from "next/navigation";
-import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
+import { generateJSON } from "@tiptap/react";
 import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

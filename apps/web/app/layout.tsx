@@ -4,9 +4,7 @@ import "@/styles/prosemirror.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Providers from "./providers";
-
-import AuthButton from "@/components/auth-button";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import AuthButton from "@/components/AuthButton";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
