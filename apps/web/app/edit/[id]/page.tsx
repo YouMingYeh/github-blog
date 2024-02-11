@@ -55,6 +55,7 @@ const extensions = [
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
+import { revalidatePath } from "next/cache";
 
 export default function Page() {
   const params = useParams();
@@ -82,6 +83,9 @@ export default function Page() {
     const response = await updateIssue(Number(id), title, htmlContent, token);
     const issue = await response.json();
     setSaveStatus("Saved");
+    revalidatePath(`/posts/${id}`);
+    revalidatePath(`/edit/${id}`);
+    revalidatePath(`/`);
   }, [id, title, htmlContent]);
 
   const debouncedUpdates = useDebouncedCallback(
@@ -138,6 +142,14 @@ export default function Page() {
     );
   }
 
+  async function handleDeletePage() {
+    if (confirm("Are you sure you want to delete this page?")) {
+      await deleteIssue(Number(id), localStorage.getItem("token"));
+      revalidatePath(`/`);
+      window.location.replace("/");
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
@@ -163,11 +175,7 @@ export default function Page() {
         variant="outline"
         className="fixed bottom-20 left-5 z-10"
         size="icon"
-        onClick={async () => {
-          confirm("Are you sure you want to delete this page?") &&
-            (await deleteIssue(Number(id), localStorage.getItem("token"))) &&
-            window.location.replace("/");
-        }}
+        onClick={handleDeletePage}
       >
         <TrashIcon />
       </Button>

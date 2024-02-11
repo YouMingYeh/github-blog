@@ -60,16 +60,6 @@ export default function Blog({
   );
   const [title, setTitle] = useState(defaultTitle);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await getIssue(Number(id));
-  //     const issue = await response.json();
-  //     const json = generateJSON(issue.body, extensions);
-  //     setContent(json);
-  //     setTitle(issue.title);
-  //   })();
-  // }, []);
-
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="relative w-full max-w-screen-lg">

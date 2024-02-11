@@ -69,6 +69,7 @@ import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import { createIssue } from "@/lib/github-issues-api";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 async function AddForm({
   token,
@@ -83,6 +84,9 @@ async function AddForm({
     const body = formData.get("body") as string;
     const response = await createIssue(title, body, token);
     const newIssue = await response.json();
+    revalidatePath(`/posts/${newIssue.number}`);
+    revalidatePath(`/edit/${newIssue.number}`);
+    revalidatePath(`/`);
     redirect(`/posts/${newIssue.number}`);
   }
 

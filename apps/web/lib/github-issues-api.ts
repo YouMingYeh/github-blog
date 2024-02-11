@@ -1,3 +1,5 @@
+import { revalidatePath } from "next/cache";
+
 const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
 const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
 
