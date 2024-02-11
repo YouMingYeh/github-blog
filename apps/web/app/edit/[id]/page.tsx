@@ -32,7 +32,6 @@ import TextButtons from "@/lib/selectors/text-buttons";
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
 import { AISelector } from "@/lib/selectors/ai-selector";
-import Magic from "@/components/ui/icons/magic";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDebouncedCallback } from "use-debounce";
@@ -142,7 +141,7 @@ export default function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
-        <Link href={`/${id}`}>
+        <Link href={`/posts/${id}`}>
           <Button size="icon" onClick={() => {}}>
             <ViewIcon />
           </Button>

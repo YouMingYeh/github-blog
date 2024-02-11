@@ -79,7 +79,7 @@ export default function Page() {
               issue.body.length > 100
                 ? `${issue.body.slice(0, 100)}...`
                 : issue.body,
-            link: `/${issue.number}`,
+            link: `/posts/${issue.number}`,
           };
         })}
       />

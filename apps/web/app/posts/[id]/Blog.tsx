@@ -26,9 +26,6 @@ import {
 
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
-import { defaultEditorContent } from "@/lib/content";
-
-import Menu from "@/components/ui/menu";
 
 import { useParams } from "next/navigation";
 import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
@@ -49,21 +46,29 @@ const extensions = [
   placeholder,
 ];
 
-export default function Page() {
+export default function Blog({
+  defaultContent,
+  defaultTitle,
+}: {
+  defaultContent: string;
+  defaultTitle: string;
+}) {
   const params = useParams();
   const { id } = params;
-  const [content, setContent] = useState<JSONContent | null>();
-  const [title, setTitle] = useState("");
+  const [content, setContent] = useState<JSONContent | null>(
+    generateJSON(defaultContent, extensions),
+  );
+  const [title, setTitle] = useState(defaultTitle);
 
-  useEffect(() => {
-    (async () => {
-      const response = await getIssue(Number(id));
-      const issue = await response.json();
-      const json = generateJSON(issue.body, extensions);
-      setContent(json);
-      setTitle(issue.title);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await getIssue(Number(id));
+  //     const issue = await response.json();
+  //     const json = generateJSON(issue.body, extensions);
+  //     setContent(json);
+  //     setTitle(issue.title);
+  //   })();
+  // }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
