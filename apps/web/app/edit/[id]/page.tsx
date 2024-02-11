@@ -36,7 +36,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDebouncedCallback } from "use-debounce";
 import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
 import { deleteIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
 
@@ -55,7 +55,6 @@ const extensions = [
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
-import { revalidatePath } from "next/cache";
 
 export default function Page() {
   const params = useParams();
@@ -63,10 +62,7 @@ export default function Page() {
   const [content, setContent] = useState<JSONContent | null>();
   const { data: session }: any = useSession();
 
-  // const [content, setContent] = useLocalStorage<JSONContent | null>(
-  //   "novel-content",
-  //   defaultEditorContent,
-  // );[]
+  const router = useRouter();
   const [saveStatus, setSaveStatus] = useState("Saved");
 
   const [openNode, setOpenNode] = useState(false);
@@ -80,12 +76,9 @@ export default function Page() {
 
   const updateRemote = useCallback(async () => {
     const token = localStorage.getItem("token");
-    const response = await updateIssue(Number(id), title, htmlContent, token);
-    const issue = await response.json();
+    const issue = await updateIssue(Number(id), title, htmlContent, token);
     setSaveStatus("Saved");
-    revalidatePath(`/posts/${id}`);
-    revalidatePath(`/edit/${id}`);
-    revalidatePath(`/`);
+    router.refresh();
   }, [id, title, htmlContent]);
 
   const debouncedUpdates = useDebouncedCallback(
@@ -102,8 +95,7 @@ export default function Page() {
 
   useEffect(() => {
     (async () => {
-      const response = await getIssue(Number(id));
-      const issue = await response.json();
+      const issue = await getIssue(Number(id));
       setHtmlContent(issue.body);
       const json = generateJSON(issue.body, extensions);
       setContent(json);
@@ -145,7 +137,7 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       await deleteIssue(Number(id), localStorage.getItem("token"));
-      revalidatePath(`/`);
+      router.refresh();
       window.location.replace("/");
     }
   }

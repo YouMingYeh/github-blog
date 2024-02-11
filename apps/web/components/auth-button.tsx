@@ -82,11 +82,8 @@ async function AddForm({
     "use server";
     const title = formData.get("title") as string;
     const body = formData.get("body") as string;
-    const response = await createIssue(title, body, token);
-    const newIssue = await response.json();
-    revalidatePath(`/posts/${newIssue.number}`);
-    revalidatePath(`/edit/${newIssue.number}`);
-    revalidatePath(`/`);
+    const newIssue = await createIssue(title, body, token);
+    revalidatePath(`/`, "layout");
     redirect(`/posts/${newIssue.number}`);
   }
 

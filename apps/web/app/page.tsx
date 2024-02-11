@@ -38,16 +38,14 @@ export default function Page() {
       per_page: "10",
       direction: "asc",
     };
-    const response = await getIssues(params);
+    const issues = await getIssues(params);
 
-    const issues = await response.json();
-
-    if (issues.length === 0) {
+    if (issues.length === 0 || !issues.length) {
       return;
     }
 
     setIssues((prev) => {
-      const unique = issues.filter(
+      const unique = issues?.filter(
         (issue) => !prev.some((prevIssue) => prevIssue.number === issue.number),
       );
       return [...prev, ...unique];

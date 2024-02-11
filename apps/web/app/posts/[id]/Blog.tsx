@@ -29,7 +29,6 @@ import { ImageResizer } from "novel/extensions";
 
 import { useParams } from "next/navigation";
 import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
-import { getIssue, updateIssue } from "@/lib/github-issues-api";
 import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

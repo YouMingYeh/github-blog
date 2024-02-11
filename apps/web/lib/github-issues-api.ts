@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+export const dynamic = "force-dynamic";
 
 const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
 const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -21,9 +21,11 @@ export const createIssue = async (
         title: title,
         body: body,
       }),
+      cache: "no-store",
     },
   );
-  return response;
+  const data = await response.json();
+  return data;
 };
 
 export const getIssues = async (params?: Record<string, string>) => {
@@ -40,8 +42,9 @@ export const getIssues = async (params?: Record<string, string>) => {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
+    cache: "no-store",
   });
-  return response;
+  return await response.json();
 };
 
 export const getIssue = async (issue_number: number) => {
@@ -56,8 +59,9 @@ export const getIssue = async (issue_number: number) => {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
+    cache: "no-store",
   });
-  return response;
+  return await response.json();
 };
 
 export const updateIssue = async (
@@ -79,9 +83,10 @@ export const updateIssue = async (
         title: title,
         body: body,
       }),
+      cache: "no-store",
     },
   );
-  return response;
+  return await response.json();
 };
 
 // This set the issue to close
@@ -98,7 +103,8 @@ export const deleteIssue = async (issue_number: number, token: string) => {
       body: JSON.stringify({
         state: "closed",
       }),
+      cache: "no-store",
     },
   );
-  return response;
+  return await response.json();
 };
