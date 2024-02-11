@@ -72,6 +72,7 @@ export default function Page() {
 
   return (
     <div className="relative z-0 p-3">
+      <h1 className="text-center text-3xl font-bold">Posts</h1>
       <HoverEffect
         items={issues.map((issue) => {
           ("use server");
