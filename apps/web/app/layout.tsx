@@ -11,6 +11,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
+import { Github } from "@/components/ui/icons";
 
 const title = "GitHub Blog";
 const description =
@@ -44,8 +45,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             {/* @ts-expect-error Server Component */}
             <AuthButton />
           </div>
-          <div className="fixed left-1 top-1 z-20">
+          <div className="fixed left-1 top-1 z-20 flex gap-1">
             <ModeToggle />
+            <Link href="https://github.com/YouMingYeh/github-blog.git">
+              <Button size="icon" variant="outline">
+                <Github />
+              </Button>
+            </Link>
           </div>
           {children}
         </Providers>
