@@ -38,7 +38,7 @@ git clone http://github.com/YouMingYeh/github-blog
 ```
 Then, you will need to fill in the environment variables in `.env.example` and rename it to `.env`.
 
-**Note**: You will need to create a GitHub App and install it on your repository. You can follow the instructions [here](https://docs.github.com/en/developers/apps/creating-a-github-app). Also, you will need to grab the `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, from the GitHub App you created.
+**Note**: You will need to create a GitHub OAuth App. You can follow the instructions [here](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create a GitHub App (OAuth App). Also, you will need to grab the `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, from the GitHub App you created.
 
 Afterwards, you can run the following commands to start the app.
 
