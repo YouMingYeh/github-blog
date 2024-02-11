@@ -9,9 +9,12 @@
 
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
+  <a href="#features"><strong>Features</strong></a> ·
+  <a href="#playground"><strong>Playground</strong></a> ·
   <a href="#installation"><strong>Installation</strong></a> ·
   <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
   <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
+  <a href="#references"><strong>References</strong></a>
 </p>
 <br/>
 
