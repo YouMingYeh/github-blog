@@ -15,11 +15,10 @@ const getHeaders = (token: string | undefined) =>
 
 async function fetchGitHubAPI<T>(
   endpoint: string,
+  owner: string,
+  repo: string,
   { method, body, token, params }: FetchOptions,
 ): GitHubResponse<T> {
-  const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
-  const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
-
   const baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
   let url = `${baseUrl}/${endpoint}`;
 
@@ -63,10 +62,12 @@ async function fetchGitHubAPI<T>(
 
 export const createIssue = async (
   issue: GitHubIssue,
-  token: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>("issues", {
+  return fetchGitHubAPI<GitHubIssue>("issues", owner, repo, {
     method: "POST",
     body: issue,
     token,
@@ -75,10 +76,12 @@ export const createIssue = async (
 };
 
 export const getIssues = async (
-  token?: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue[]> => {
-  return fetchGitHubAPI<GitHubIssue[]>("issues", {
+  return fetchGitHubAPI<GitHubIssue[]>("issues", owner, repo, {
     method: "GET",
     token: token,
     params,
@@ -87,52 +90,83 @@ export const getIssues = async (
 
 export const getIssue = async (
   issue_number: number,
-  token?: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "GET",
-    token,
-    params,
-  });
+  return fetchGitHubAPI<GitHubIssue>(
+    `issues/${issue_number}`,
+
+    owner,
+    repo,
+    {
+      method: "GET",
+      token,
+      params,
+    },
+  );
 };
 
 export const updateIssue = async (
   issue_number: number,
   issue: GitHubIssue,
-  token: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
   console.log("updateIssue", issue_number, issue, token);
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "PATCH",
-    body: issue,
-    token,
-    params,
-  });
+  return fetchGitHubAPI<GitHubIssue>(
+    `issues/${issue_number}`,
+
+    owner,
+    repo,
+    {
+      method: "PATCH",
+      body: issue,
+      token,
+      params,
+    },
+  );
 };
 
 export const closeIssue = async (
   issue_number: number,
-  token: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "PATCH",
-    body: { state: "closed" },
-    token,
-    params,
-  });
+  return fetchGitHubAPI<GitHubIssue>(
+    `issues/${issue_number}`,
+
+    owner,
+    repo,
+    {
+      method: "PATCH",
+      body: { state: "closed" },
+      token,
+      params,
+    },
+  );
 };
 
 export const getIssueComments = async (
   issue_number: number,
-  token: string,
+  token: string | undefined,
+  owner: string,
+  repo: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<IssueComment[]> => {
-  return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
-    method: "GET",
-    token,
-    params,
-  });
+  return fetchGitHubAPI<IssueComment[]>(
+    `issues/${issue_number}/comments`,
+    owner,
+    repo,
+    {
+      method: "GET",
+      token,
+      params,
+    },
+  );
 };
