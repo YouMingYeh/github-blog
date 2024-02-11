@@ -1,10 +1,10 @@
-<a href="https://novel.sh">
-  <img alt="Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions." src="https://novel.sh/opengraph-image.png">
-  <h1 align="center">Novel</h1>
+<a href="https://github-blog-blue.vercel.app">
+  <img alt="GitHub Blog App is a dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database." src="https://github-blog-blue.vercel.app/opengraph-image.png">
+  <h1 align="center">GitHub Blog</h1>
 </a>
 
 <p align="center">
-  An open-source Notion-style WYSIWYG editor with AI-powered autocompletions. 
+   A dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database.
 </p>
 
 <p align="center">
