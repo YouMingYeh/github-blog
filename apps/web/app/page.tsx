@@ -76,8 +76,8 @@ export default function Page() {
           return {
             title: issue.title,
             description:
-              issue.body.length > 100
-                ? `${issue.body.slice(0, 100)}...`
+              issue.body?.length > 100
+                ? `${issue.body?.slice(0, 100)}...`
                 : issue.body,
             link: `/posts/${issue.number}`,
           };
