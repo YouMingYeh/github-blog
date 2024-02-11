@@ -1,5 +1,5 @@
-const owner = process.env.GITHUB_OWNER || "YouMingYeh";
-const repo = process.env.GITHUB_REPO || "github-blog";
+const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
+const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
 
 export const createIssue = async (
   title: string,
