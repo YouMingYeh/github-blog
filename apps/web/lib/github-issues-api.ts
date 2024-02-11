@@ -67,6 +67,7 @@ export const createIssue = async (
     method: "POST",
     body: issue,
     token,
+    params,
   });
 };
 
@@ -84,10 +85,12 @@ export const getIssues = async (
 export const getIssue = async (
   issue_number: number,
   token?: string,
+  params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "GET",
     token,
+    params,
   });
 };
 
@@ -95,32 +98,38 @@ export const updateIssue = async (
   issue_number: number,
   issue: GitHubIssue,
   token: string,
+  params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
   console.log("updateIssue", issue_number, issue, token);
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "PATCH",
     body: issue,
     token,
+    params,
   });
 };
 
 export const closeIssue = async (
   issue_number: number,
   token: string,
+  params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "PATCH",
     body: { state: "closed" },
     token,
+    params,
   });
 };
 
 export const getIssueComments = async (
   issue_number: number,
   token: string,
+  params?: Record<string, string | number | boolean>,
 ): GitHubResponse<IssueComment[]> => {
   return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
     method: "GET",
     token,
+    params,
   });
 };
