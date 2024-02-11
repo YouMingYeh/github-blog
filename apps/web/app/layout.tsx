@@ -6,14 +6,15 @@ import type { ReactNode } from "react";
 import Providers from "./providers";
 
 import AuthButton from "@/components/auth-button";
-import Menu from "@/components/ui/menu";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/ModeToggle";
+import { Button } from "@/components/ui/button";
+import { HomeIcon } from "lucide-react";
+import Link from "next/link";
 
-const title =
-  "Novel - Notion-style WYSIWYG editor with AI-powered autocompletions";
+const title = "GitHub Blog";
 const description =
-  "Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions. Built with Tiptap, OpenAI, and Vercel AI SDK.";
+  "GitHub Blog - Notion-style WYSIWYG editor with GitHub Issues as a CMS.";
 
 export const metadata: Metadata = {
   title,
@@ -22,13 +23,7 @@ export const metadata: Metadata = {
     title,
     description,
   },
-  twitter: {
-    title,
-    description,
-    card: "summary_large_image",
-    creator: "@steventey",
-  },
-  metadataBase: new URL("https://novel.sh"),
+  metadataBase: new URL("https://github-blog-blue.vercel.app/"),
 };
 
 export const viewport: Viewport = {
@@ -40,7 +35,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <div className="fixed right-1 top-1 z-20">
+          <div className="fixed right-1 top-1 z-20 flex gap-1">
+            <Button size="icon" variant="outline" className="">
+              <Link href="/">
+                <HomeIcon />
+              </Link>
+            </Button>
             {/* @ts-expect-error Server Component */}
             <AuthButton />
           </div>

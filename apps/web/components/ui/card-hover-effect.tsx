@@ -1,8 +1,10 @@
 "use client";
+import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const HoverEffect = ({
   items,
@@ -51,7 +53,7 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardDescription htmlContent={item.description}></CardDescription>
           </Card>
         </Link>
       ))}
@@ -99,10 +101,10 @@ export const CardTitle = ({
 };
 export const CardDescription = ({
   className,
-  children,
+  htmlContent, // Changed from `children` to specifically accept a string
 }: {
   className?: string;
-  children: React.ReactNode;
+  htmlContent: string; // Expecting a string now
 }) => {
   return (
     <p
@@ -110,8 +112,7 @@ export const CardDescription = ({
         "mt-8 text-sm leading-relaxed tracking-wide text-zinc-600 dark:text-slate-300",
         className,
       )}
-    >
-      {children}
-    </p>
+      dangerouslySetInnerHTML={{ __html: htmlContent }} // Using dangerouslySetInnerHTML
+    ></p>
   );
 };

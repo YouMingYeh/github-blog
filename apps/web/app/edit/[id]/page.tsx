@@ -3,15 +3,6 @@
 import { Github } from "@/components/ui/icons";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
   defaultEditorProps,
   Editor,
   EditorRoot,
@@ -22,7 +13,7 @@ import {
   EditorContent,
   type JSONContent,
 } from "novel";
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   taskItem,
   taskList,
@@ -40,17 +31,15 @@ import { ColorSelector } from "@/lib/selectors/color-selector";
 import TextButtons from "@/lib/selectors/text-buttons";
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
-import { defaultEditorContent } from "@/lib/content";
 import { AISelector } from "@/lib/selectors/ai-selector";
 import Magic from "@/components/ui/icons/magic";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import useLocalStorage from "@/lib/hooks/use-local-storage";
 import { useDebouncedCallback } from "use-debounce";
-import { EditIcon, SaveAllIcon, ViewIcon } from "lucide-react";
+import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import { generateHTML, generateJSON, useEditor } from "@tiptap/react";
-import { getIssue, updateIssue } from "@/lib/github-issues-api";
+import { generateJSON } from "@tiptap/react";
+import { deleteIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
 
 const extensions = [
   starterKit,
@@ -91,11 +80,9 @@ export default function Page() {
 
   const updateRemote = useCallback(async () => {
     const token = localStorage.getItem("token");
-    console.log(title, htmlContent, token);
     const response = await updateIssue(Number(id), title, htmlContent, token);
     const issue = await response.json();
     setSaveStatus("Saved");
-    console.log(issue);
   }, [id, title, htmlContent]);
 
   const debouncedUpdates = useDebouncedCallback(
@@ -173,8 +160,22 @@ export default function Page() {
         {" "}
         <SaveAllIcon />
       </Button>
+      <Button
+        variant="outline"
+        className="fixed bottom-20 left-5 z-10"
+        size="icon"
+        onClick={async () => {
+          confirm("Are you sure you want to delete this page?") &&
+            (await deleteIssue(Number(id), localStorage.getItem("token"))) &&
+            window.location.replace("/");
+        }}
+      >
+        <TrashIcon />
+      </Button>
       {loading ? (
-        <LoadingCircle />
+        <div className="h-full w-full justify-center align-middle">
+          <LoadingCircle />
+        </div>
       ) : (
         <div className=" w-full max-w-screen-lg">
           <div className="fixed left-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
@@ -257,17 +258,6 @@ export default function Page() {
                     <AISelector open={openAI} onOpenChange={setOpenAI} />
                   ) : (
                     <>
-                      <Button
-                        variant="ghost"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setOpenAI(!openAI);
-                        }}
-                        className="items-center justify-between gap-2 rounded-none"
-                      >
-                        <Magic className="h-5 w-5" /> Ask AI
-                      </Button>
-                      <Separator orientation="vertical" />
                       <NodeSelector
                         open={openNode}
                         onOpenChange={setOpenNode}
