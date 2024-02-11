@@ -83,14 +83,13 @@ async function AddForm({
     const body = formData.get("body") as string;
     const response = await createIssue(title, body, token);
     const newIssue = await response.json();
-    console.log(newIssue);
     redirect(`/posts/${newIssue.number}`);
   }
 
   return (
     <form
       className={cn("grid items-start gap-4", className)}
-      action={handleCreateIssue}
+      action={handleCreateIssue as any}
     >
       <div className="grid gap-2">
         <Label htmlFor="title">Title</Label>
