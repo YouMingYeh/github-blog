@@ -23,7 +23,7 @@
 
 [Guide for using this app](https://github-blog-blue.vercel.app/posts/24)
 
-## Structure 
+## Project Structure 
 1. This project was built on top of [Novel](https://novel.sh/), on top of Next.js App router, also a Turbo repository template, which gives scalability and flexibility to the project.
 2. File structure:
 ```
@@ -106,6 +106,16 @@
 ├── tailwind.config.ts
 └── tsconfig.json
 ```
+- v1: Self-hosted blog
+  - `/`: The home page, listing all the blog posts.
+  - `/edit/[id]`: The editor page for the blog post.
+  - `/posts/[id]`: The published blog post page.
+- v2: Platform blog
+  - `/[owner]`: The home page, listing all the repos of the owner.
+  - `/[owner]/[repo]`: The home page, listing all the blog posts.
+  - `/[owner]/[repo]/edit/[id]`: The editor page for the blog post.
+  - `/[owner]/[repo]/posts/[id]`: The published blog post page.
+
 3. The app is divided into two versions, v1 and v2. The v1 is the self-host only version, and the v2 is the platform version, which can be used to host multiple blogs for multiple users and repos.
 4. The app is built with TypeScript, Shadcn/ui, and TailwindCSS.
 5. The app is using GitHub Issues as the backend database, and GitHub OAuth for authentication.
