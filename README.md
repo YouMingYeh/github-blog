@@ -18,6 +18,140 @@
 </p>
 <br/>
 
+## Demo
+[GitHub Blog](https://github-blog-blue.vercel.app/posts/1)
+
+[Guide for using this app](https://github-blog-blue.vercel.app/posts/24)
+
+## Structure 
+1. This project was built on top of [Novel](https://novel.sh/), on top of Next.js App router, also a Turbo repository template, which gives scalability and flexibility to the project.
+2. File structure:
+```
+.
+├── app
+│   ├── (v1)
+│   │   ├── edit
+│   │   │   └── [id]
+│   │   │       ├── layout.tsx
+│   │   │       └── page.tsx
+│   │   └── posts
+│   │       └── [id]
+│   │           ├── Blog.tsx
+│   │           ├── layout.tsx
+│   │           └── page.tsx
+│   ├── (v2)
+│   │   └── [owner]
+│   │       ├── [repo]
+│   │       │   ├── edit
+│   │       │   │   └── [id]
+│   │       │   │       ├── layout.tsx
+│   │       │   │       └── page.tsx
+│   │       │   ├── page.tsx
+│   │       │   └── posts
+│   │       │       └── [id]
+│   │       │           ├── Blog.tsx
+│   │       │           ├── layout.tsx
+│   │       │           └── page.tsx
+│   │       └── page.tsx
+│   ├── api
+│   │   ├── auth
+│   │   │   └── [...nextauth]
+│   │   │       └── route.ts
+│   │   ├── generate
+│   │   │   └── route.ts
+│   │   └── upload
+│   │       └── route.ts
+│   ├── favicon.ico
+│   ├── global-error.tsx
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── opengraph-image.jpeg
+│   ├── page.tsx
+│   ├── providers.tsx
+│   ├── test
+│   │   └── page.tsx
+│   └── type.d.ts
+├── components
+│   ├── AuthButton.tsx
+│   ├── IssueComments.tsx
+│   ├── IssueCommentsV2.tsx
+│   ├── ModeToggle.tsx
+│   ├── NewPostButton.tsx
+│   ├── SearchPageButton.tsx
+│   ├── SubmitButton.tsx
+│   └── ui
+│       ├── alert.tsx
+│       ├── avatar.tsx
+│       ├── button.tsx
+│       ├── card-hover-effect.tsx
+│       ├── command.tsx
+│       ├── dialog.tsx
+│       ├── drawer.tsx
+│       ├── dropdown-menu.tsx
+│       ├── icons
+│       │   ├── font-default.tsx
+│       │   ├── font-mono.tsx
+│       │   ├── font-serif.tsx
+│       │   ├── github.tsx
+│       │   ├── index.tsx
+│       │   ├── loading-circle.tsx
+│       │   └── magic.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── pagination.tsx
+│       ├── popover.tsx
+│       ├── progress.tsx
+│       └── separator.tsx
+├── components.json
+├── lib
+│   ├── auth.ts
+│   ├── extensions.ts
+│   ├── github-issues-api-v2.ts
+│   ├── github-issues-api.ts
+│   ├── hooks
+│   │   ├── use-local-storage.ts
+│   │   └── use-scroll-position.ts
+│   ├── selectors
+│   │   ├── ai-selector.tsx
+│   │   ├── color-selector.tsx
+│   │   ├── link-selector.tsx
+│   │   ├── node-selector.tsx
+│   │   └── text-buttons.tsx
+│   ├── showdown.ts
+│   ├── suggestions.tsx
+│   └── utils.ts
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── postcss.config.js
+├── prettier.config.js
+├── styles
+│   ├── CalSans-SemiBold.otf
+│   ├── fonts.ts
+│   ├── globals.css
+│   └── prosemirror.css
+├── tailwind.config.ts
+└── tsconfig.json
+```
+3. The app is divided into two versions, v1 and v2. The v1 is the self-host only version, and the v2 is the platform version, which can be used to host multiple blogs for multiple users and repos.
+4. The app is built with TypeScript, Shadcn/ui, and TailwindCSS.
+5. The app is using GitHub Issues as the backend database, and GitHub OAuth for authentication.
+6. The content of the blogs will be fetched in the server components and pass to the client components for rendering. This is to improve SEO.
+7. Requirements:
+- [x] GitHub OAuth Login
+- [x] Post Management
+- [x] User Interface - Pagination
+- [x] User Interface - Post Editor - Markdown and CRUD operations
+- [x] User Interface - Form Validation
+- [x] Hosting - Vercel: https://github-blog-blue.vercel.app
+- [x] Web Vitals - Chrome Extension
+![alt text](WebVitals.png)
+- [x] Lighthouse
+![alt text](LightHouse.png)
+
+## How to start the app
+Video Tutorial: TODO 
+
 ## Playground
 Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog.
 
