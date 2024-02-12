@@ -72,36 +72,9 @@
 │   │   └── page.tsx
 │   └── type.d.ts
 ├── components
-│   ├── AuthButton.tsx
-│   ├── IssueComments.tsx
-│   ├── IssueCommentsV2.tsx
-│   ├── ModeToggle.tsx
-│   ├── NewPostButton.tsx
-│   ├── SearchPageButton.tsx
-│   ├── SubmitButton.tsx
+│   ├── <custom-component>.tsx
 │   └── ui
-│       ├── alert.tsx
-│       ├── avatar.tsx
-│       ├── button.tsx
-│       ├── card-hover-effect.tsx
-│       ├── command.tsx
-│       ├── dialog.tsx
-│       ├── drawer.tsx
-│       ├── dropdown-menu.tsx
-│       ├── icons
-│       │   ├── font-default.tsx
-│       │   ├── font-mono.tsx
-│       │   ├── font-serif.tsx
-│       │   ├── github.tsx
-│       │   ├── index.tsx
-│       │   ├── loading-circle.tsx
-│       │   └── magic.tsx
-│       ├── input.tsx
-│       ├── label.tsx
-│       ├── pagination.tsx
-│       ├── popover.tsx
-│       ├── progress.tsx
-│       └── separator.tsx
+│       ├── <some-ui>.tsx
 ├── components.json
 ├── lib
 │   ├── auth.ts
