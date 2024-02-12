@@ -1,7 +1,5 @@
 import { getIssue, updateIssue } from "@/lib/github-issues-api-v2";
 import Blog from "./Blog";
-import { Suspense } from "react";
-import LoadingCircle from "@/components/ui/icons/loading-circle";
 
 export default async function Page({
   params,

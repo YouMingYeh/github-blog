@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogClose,
@@ -33,30 +34,38 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 import { cn } from "@/lib/utils";
-import { createIssue } from "@/lib/github-issues-api";
+import { createIssue as createIssueV1 } from "@/lib/github-issues-api";
+import { createIssue as createIssueV2 } from "@/lib/github-issues-api-v2";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { PlusCircleIcon } from "lucide-react";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-async function AddForm({
-  token,
-  className,
-}: {
-  token: string;
-  className: string;
-}) {
-  async function handleCreateIssue(formData: FormData) {
-    "use server";
-    const title = formData.get("title") as string;
-    const body = formData.get("body") as string;
+function AddForm({ token, className }: { token: string; className: string }) {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [owner, setOwner] = useState("");
+  const [repo, setRepo] = useState("");
+
+  const router = useRouter();
+
+  async function handleCreateIssue() {
     const issueToCreate: GitHubIssue = {
       title,
       body,
     };
     const newIssue = await createIssue(issueToCreate, token);
-    revalidatePath(`/`, "layout");
-    redirect(`/posts/${newIssue.number}`);
+    router.refresh();
+    router.push(`/posts/${newIssue.number}`);
+  }
+
+  async function createIssue(issue: GitHubIssue, token: string) {
+    if (owner === "" || repo === "") {
+      return createIssueV1(issue, token);
+    }
+    return createIssueV2(issue, owner, repo, token);
   }
 
   return (
@@ -69,6 +78,7 @@ async function AddForm({
           placeholder="Give your post a title."
           name="title"
           required
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <div className="grid gap-2">
@@ -80,10 +90,35 @@ async function AddForm({
           name="body"
           required
           minLength={30}
+          onChange={(e) => setBody(e.target.value)}
         />
       </div>
-      <DialogClose>
-        <Button formAction={handleCreateIssue as any}>Create a Post!</Button>
+      <div className="grid gap-2">
+        <Label htmlFor="owner">GitHub Profile Name</Label>
+        <Input
+          type="owner"
+          id="owner"
+          placeholder="The owner of the GitHub repo. Leave blank for default."
+          name="owner"
+          required
+          onChange={(e) => setOwner(e.target.value)}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="repo">GitHub Repo Name</Label>
+        <Input
+          type="repo"
+          id="repo"
+          placeholder="The owner of the GitHub repo. Leave blank for default."
+          name="repo"
+          required
+          onChange={(e) => setRepo(e.target.value)}
+        />
+      </div>
+      <DialogClose disabled={title.length == 0 || body.length < 30}>
+        <Button type="submit" onClick={handleCreateIssue}>
+          Create a Post!
+        </Button>
       </DialogClose>
     </form>
   );

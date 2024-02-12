@@ -32,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueCommentsV2";
 import { markdownToHtml } from "@/lib/showdown";
+import LoadingCircle from "@/components/ui/icons/loading-circle";
 
 const extensions = [
   starterKit,
@@ -52,6 +53,7 @@ export default function Blog({
   defaultContent: string;
   defaultTitle: string;
 }) {
+  if (typeof window === "undefined") return null;
   const params = useParams();
   const { id, owner, repo } = params;
   const htmlContent = markdownToHtml(defaultContent);
@@ -65,9 +67,7 @@ export default function Blog({
       <div className="relative w-full max-w-screen-lg">
         <div className="fixed bottom-5 right-5 z-10">
           <Link href={`/${owner}/${repo}/edit/${id}`}>
-            <Button size="icon">
-              <EditIcon />
-            </Button>
+            <EditIcon />
           </Link>
         </div>
         <div className="w-full py-8 text-center text-6xl ">{title}</div>

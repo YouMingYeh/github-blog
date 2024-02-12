@@ -57,6 +57,7 @@ import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
 import IssueComments from "@/components/IssueComments";
+import { markdownToHtml } from "@/lib/showdown";
 
 export default function Page() {
   const { id } = useParams();
@@ -111,8 +112,9 @@ export default function Page() {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       const issue = await getIssue(Number(id), token);
-      setHtmlContent(issue.body);
-      setContent(generateJSON(issue.body, extensions));
+      const htmlContent = markdownToHtml(issue.body);
+      setHtmlContent(htmlContent);
+      setContent(generateJSON(htmlContent, extensions));
       setTitle(issue.title);
       setLoading(false);
     };
@@ -163,7 +165,7 @@ export default function Page() {
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
         <Link href={`/posts/${id}`}>
-          <Button size="icon" onClick={() => {}}>
+          <Button size="icon" variant="ghost">
             <ViewIcon />
           </Button>
         </Link>

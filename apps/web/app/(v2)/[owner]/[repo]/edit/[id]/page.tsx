@@ -57,6 +57,7 @@ import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
 import IssueComments from "@/components/IssueCommentsV2";
+import { markdownToHtml } from "@/lib/showdown";
 
 export default function Page() {
   const { id, owner, repo } = useParams();
@@ -121,8 +122,9 @@ export default function Page() {
         owner as string,
         repo as string,
       );
-      setHtmlContent(issue.body);
-      setContent(generateJSON(issue.body, extensions));
+      const htmlContent = markdownToHtml(issue.body);
+      setHtmlContent(htmlContent);
+      setContent(generateJSON(htmlContent, extensions));
       setTitle(issue.title);
       setLoading(false);
     };
@@ -178,7 +180,7 @@ export default function Page() {
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
         <Link href={`/${owner}/${repo}/posts/${id}`}>
-          <Button size="icon" onClick={() => {}}>
+          <Button size="icon" variant="ghost">
             <ViewIcon />
           </Button>
         </Link>
