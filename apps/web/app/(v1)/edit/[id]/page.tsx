@@ -82,6 +82,15 @@ export default function Page() {
 
   // Fetch and update issue content
   const updateRemote = useCallback(async () => {
+    if (title === "") {
+      alert("Title cannot be empty");
+      return;
+    }
+    if (htmlContent.length < 30) {
+      alert("Content cannot be less than 30 characters");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     await updateIssue(Number(id), { title, body: htmlContent }, token);
     setSaveStatus("Saved");

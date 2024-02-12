@@ -5,15 +5,9 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { LogInIcon, LogOutIcon, PlusCircleIcon } from "lucide-react";
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { NewPostButton } from "./NewPostButton";
+
+import { SearchPageButton } from "./SearchPageButton";
 
 export default async function AuthButton() {
   const session: SessionWithToken = await auth();
@@ -26,7 +20,7 @@ export default async function AuthButton() {
             <LogInIcon />
           </Button>
         </Link>
-        <SpecificPageButton />
+        <SearchPageButton />
       </div>
     );
   }
@@ -38,154 +32,21 @@ export default async function AuthButton() {
           <LogOutIcon />
         </Button>
       </Link>
-      <SpecificPageButton />
-      <AddButton token={session.token} />
-      <Link href={`/${session.user.name}`}>
-        <Avatar>
-          <AvatarImage src={session.user.image} alt="avatar" />
-          <AvatarFallback>{session.user.name}</AvatarFallback>
-        </Avatar>
-      </Link>
+      <div className="flex flex-col gap-1">
+        <Link href={`/${session.user.name}`}>
+          <Avatar>
+            <AvatarImage src={session.user.image} alt="avatar" />
+            <AvatarFallback>{session.user.name}</AvatarFallback>
+          </Avatar>
+        </Link>
+
+        <div className="flex h-8 w-8 justify-center">
+          <NewPostButton token={session.token} />
+        </div>
+        <div className="flex h-8 w-8 justify-center">
+          <SearchPageButton />
+        </div>
+      </div>
     </div>
-  );
-}
-
-function AddButton({ token }: { token: string }) {
-  return (
-    <Dialog>
-      <DialogTrigger>
-        <Button size="icon" variant="outline">
-          <PlusCircleIcon />
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create a new post</DialogTitle>
-          <DialogDescription>
-            {/* @ts-expect-error Server Component */}
-            <AddForm token={token} />
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-
-import { cn } from "@/lib/utils";
-import { createIssue } from "@/lib/github-issues-api";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-
-async function AddForm({
-  token,
-  className,
-}: {
-  token: string;
-  className: string;
-}) {
-  async function handleCreateIssue(formData: FormData) {
-    "use server";
-    const title = formData.get("title") as string;
-    const body = formData.get("body") as string;
-    const issueToCreate: GitHubIssue = {
-      title,
-      body,
-    };
-    const newIssue = await createIssue(issueToCreate, token);
-    revalidatePath(`/`, "layout");
-    redirect(`/posts/${newIssue.number}`);
-  }
-
-  return (
-    <form
-      className={cn("grid items-start gap-4", className)}
-      action={handleCreateIssue as any}
-    >
-      <div className="grid gap-2">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          type="title"
-          id="title"
-          placeholder="Give your post a title."
-          name="title"
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="body">Body</Label>
-        <Input
-          type="body"
-          id="body"
-          placeholder="Give your post brief a content."
-          name="body"
-        />
-      </div>
-      <DialogClose>
-        <Button type="submit">Create a Post!</Button>
-      </DialogClose>
-    </form>
-  );
-}
-
-function SpecificPageButton() {
-  return (
-    <Dialog>
-      <DialogTrigger>
-        <Button size="icon" variant="outline">
-          <MagnifyingGlassIcon />
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Go to specific page!</DialogTitle>
-          <DialogDescription>
-            {/* @ts-expect-error Server Component */}
-            <SpecificPageForm />
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-async function SpecificPageForm() {
-  async function handleCreateIssue(formData: FormData) {
-    "use server";
-    const owner = formData.get("owner") as string;
-    const repo = formData.get("repo") as string;
-
-    redirect(`/${owner}/${repo}`);
-  }
-
-  return (
-    <form
-      className={cn("grid items-start gap-4")}
-      action={handleCreateIssue as any}
-    >
-      <div className="grid gap-2">
-        <Label htmlFor="owner">GitHub Profile Name</Label>
-        <Input
-          type="owner"
-          id="owner"
-          placeholder="The owner of the GitHub repo."
-          name="owner"
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="repo">GitHub Repo Name</Label>
-        <Input
-          type="repo"
-          id="repo"
-          placeholder="The name of the GitHub repo you blog on."
-          name="repo"
-        />
-      </div>
-      <DialogClose>
-        <Button type="submit">Go!</Button>
-      </DialogClose>
-    </form>
   );
 }

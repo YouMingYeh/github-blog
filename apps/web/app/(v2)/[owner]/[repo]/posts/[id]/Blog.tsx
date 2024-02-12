@@ -9,7 +9,7 @@ import {
   EditorContent,
   type JSONContent,
 } from "novel";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import {
   taskItem,
   taskList,
@@ -31,6 +31,7 @@ import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueCommentsV2";
+import { markdownToHtml } from "@/lib/showdown";
 
 const extensions = [
   starterKit,
@@ -53,8 +54,9 @@ export default function Blog({
 }) {
   const params = useParams();
   const { id, owner, repo } = params;
+  const htmlContent = markdownToHtml(defaultContent);
   const [content, setContent] = useState<JSONContent | null>(
-    generateJSON(defaultContent, extensions),
+    generateJSON(htmlContent, extensions),
   );
   const [title, setTitle] = useState(defaultTitle);
 

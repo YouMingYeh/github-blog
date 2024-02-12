@@ -13,14 +13,15 @@ export default async function Page({
   const issue = await getIssue(Number(id), undefined, owner, repo);
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-screen w-screen place-content-center items-center justify-center align-middle">
-          <LoadingCircle />
-        </div>
-      }
-    >
-      <Blog defaultContent={issue.body} defaultTitle={issue.title}></Blog>
-    </Suspense>
+    // <Suspense
+    //   fallback={
+    //     <div className="flex h-screen w-screen place-content-center items-center justify-center align-middle">
+    //       <LoadingCircle />
+    //     </div>
+    //   }
+    // >
+    //   <Blog defaultContent={issue.body} defaultTitle={issue.title}></Blog>
+    // </Suspense>
+    <Blog defaultContent={issue.body} defaultTitle={issue.title}></Blog>
   );
 }
