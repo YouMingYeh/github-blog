@@ -60,10 +60,7 @@ async function AddForm({
   }
 
   return (
-    <form
-      className={cn("grid items-start gap-4", className)}
-      action={handleCreateIssue as any}
-    >
+    <form className={cn("grid items-start gap-4", className)}>
       <div className="grid gap-2">
         <Label htmlFor="title">Title</Label>
         <Input
@@ -86,7 +83,7 @@ async function AddForm({
         />
       </div>
       <DialogClose>
-        <Button type="submit">Create a Post!</Button>
+        <Button formAction={handleCreateIssue as any}>Create a Post!</Button>
       </DialogClose>
     </form>
   );

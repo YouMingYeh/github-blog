@@ -15,8 +15,6 @@ export default async function Page() {
   const repos = await fetch(`https://api.github.com/users/${owner}/repos`);
   const data = await repos.json();
 
-  console.log(data);
-
   return (
     <div className="relative z-0 p-3">
       {data?.map((r) => (

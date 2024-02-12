@@ -34,8 +34,6 @@ async function fetchGitHubAPI<T>(
 
   const headers = getHeaders(token);
 
-  console.log(headers);
-
   try {
     const response = await fetch(url, {
       method,
@@ -103,7 +101,6 @@ export const updateIssue = async (
   token: string,
   params?: Record<string, string | number | boolean>,
 ): GitHubResponse<GitHubIssue> => {
-  console.log("updateIssue", issue_number, issue, token);
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "PATCH",
     body: issue,

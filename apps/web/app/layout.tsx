@@ -35,11 +35,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Providers>
           <div className="fixed right-1 top-1 z-20 flex gap-1">
-            <Link href="/">
-              <Button size="icon" variant="outline" className="">
-                <HomeIcon />
-              </Button>
-            </Link>
             {/* @ts-expect-error Server Component */}
             <AuthButton />
           </div>
@@ -48,6 +43,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Link href="https://github.com/YouMingYeh/github-blog.git">
               <Button size="icon" variant="outline">
                 <Github />
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button size="icon" variant="outline" className="">
+                <HomeIcon />
               </Button>
             </Link>
           </div>
