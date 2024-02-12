@@ -123,6 +123,9 @@ importers:
       lucide-react:
         specifier: ^0.244.0
         version: 0.244.0(react@18.2.0)
+      marked:
+        specifier: ^12.0.0
+        version: 12.0.0
       next:
         specifier: 14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -4886,6 +4889,12 @@ packages:
       linkify-it: 4.0.1
       mdurl: 1.0.1
       uc.micro: 1.0.6
+    dev: false
+
+  /marked@12.0.0:
+    resolution: {integrity: sha512-Vkwtq9rLqXryZnWaQc86+FHLC6tr/fycMfYAhiOIXkrNmeGAyhSxjqu0Rs1i0bBqw5u0S7+lV9fdH2ZSVaoa0w==}
+    engines: {node: '>= 18'}
+    hasBin: true
     dev: false
 
   /md5@2.3.0:

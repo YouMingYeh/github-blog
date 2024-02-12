@@ -53,8 +53,8 @@ export default function IssueComments() {
   return (
     <div className="flex w-full flex-col items-center gap-2 px-20 py-10">
       <h2 className="text-xl font-bold">Comments</h2>
-      {issueComments.map((comment) => (
-        <CommentCard comment={comment} />
+      {issueComments.map((comment, index) => (
+        <CommentCard comment={comment} key={index} />
       ))}
       {noMoreComments ? (
         <div>No more comments</div>

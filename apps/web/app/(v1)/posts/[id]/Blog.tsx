@@ -31,7 +31,7 @@ import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueComments";
-import { markdownToHtml } from "@/lib/showdown";
+import { markdownToHtml } from "@/lib/converter";
 
 const extensions = [
   starterKit,
@@ -59,6 +59,7 @@ export default function Blog({
   const [content, setContent] = useState<JSONContent | null>(
     generateJSON(htmlContent, extensions),
   );
+  console.log(htmlContent);
   const [title, setTitle] = useState(defaultTitle);
 
   return (

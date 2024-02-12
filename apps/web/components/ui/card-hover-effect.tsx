@@ -1,6 +1,6 @@
 "use client";
 import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
-import { markdownToHtml } from "@/lib/showdown";
+import { markdownToHtml } from "@/lib/converter";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";

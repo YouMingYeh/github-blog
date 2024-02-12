@@ -57,7 +57,7 @@ import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
 import IssueComments from "@/components/IssueCommentsV2";
-import { markdownToHtml } from "@/lib/showdown";
+import { markdownToHtml } from "@/lib/converter";
 
 export default function Page() {
   const { id, owner, repo } = useParams();

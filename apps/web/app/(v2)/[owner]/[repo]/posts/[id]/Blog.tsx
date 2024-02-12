@@ -31,7 +31,7 @@ import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueCommentsV2";
-import { markdownToHtml } from "@/lib/showdown";
+import { markdownToHtml } from "@/lib/converter";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 
 const extensions = [
