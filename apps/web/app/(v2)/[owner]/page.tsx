@@ -7,31 +7,29 @@ import {
   useSearchParams,
 } from "next/navigation";
 import Link from "next/link";
+import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 export default async function Page() {
   const params = useParams();
   const { owner } = params;
 
-  const repos = await fetch(`https://api.github.com/users/${owner}/repos`);
-  const data = await repos.json();
+  try {
+    const repos = await fetch(`https://api.github.com/users/${owner}/repos`);
+    const data = await repos.json();
 
-  return (
-    <div className="relative z-0 p-3">
-      {data?.map((r) => (
-        <RepoCard repo={r} key={r.id} />
-      ))}
-    </div>
-  );
-}
+    const items = data?.map((r) => ({
+      title: r.name,
+      description: r.description,
+      link: `/${r.owner.login}/${r.name}`,
+    }));
 
-function RepoCard({ repo }) {
-  return (
-    <div className="flex items-center gap-1 rounded-md  p-3">
-      <div className="flex flex-col items-start">
-        <Link href={`/${repo.owner.login}/${repo.name}`} className="underline">
-          {repo.name}
-        </Link>
+    return (
+      <div className="relative z-0 p-3">
+        <h1 className="text-center text-3xl font-bold">Posts</h1>
+        <HoverEffect items={items} />
       </div>
-    </div>
-  );
+    );
+  } catch (e) {
+    return <div>error</div>;
+  }
 }

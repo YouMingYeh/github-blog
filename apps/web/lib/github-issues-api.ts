@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 // Utility to construct headers
 const getHeaders = (token?: string) =>
