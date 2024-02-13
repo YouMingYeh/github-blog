@@ -1,4 +1,4 @@
-<a href="https://github-blog-blue.vercel.app">
+*<a href="https://github-blog-blue.vercel.app">
   <img alt="GitHub Blog App is a dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database." src="https://github-blog-blue.vercel.app/opengraph-image.jpeg">
   <h1 align="center">GitHub Blog</h1>
 </a>
@@ -31,6 +31,7 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 
 [Guide for using this app](https://github-blog-blue.vercel.app/posts/24)
 
+[App Route Tree Visualizer](https://github-blog-blue.vercel.app/visualizer)
 ## Project Structure 
 1. This project was built on top of [Novel](https://novel.sh/), on top of Next.js App router, also a Turbo repository template, which gives scalability and flexibility to the project.
 2. File structure:
@@ -41,34 +42,41 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 │   │   ├── edit
 │   │   │   └── [id]
 │   │   │       ├── layout.tsx
+│   │   │       ├── loading.tsx
 │   │   │       └── page.tsx
 │   │   └── posts
 │   │       └── [id]
-│   │           ├── Blog.tsx
 │   │           ├── layout.tsx
+│   │           ├── loading.tsx
 │   │           └── page.tsx
 │   ├── (v2)
-│   │   └── [owner]
-│   │       ├── [repo]
-│   │       │   ├── edit
-│   │       │   │   └── [id]
-│   │       │   │       ├── layout.tsx
-│   │       │   │       └── page.tsx
-│   │       │   ├── page.tsx
-│   │       │   └── posts
-│   │       │       └── [id]
-│   │       │           ├── Blog.tsx
-│   │       │           ├── layout.tsx
-│   │       │           └── page.tsx
-│   │       └── page.tsx
+│   │   ├── [owner]
+│   │   │   ├── [repo]
+│   │   │   │   ├── edit
+│   │   │   │   │   └── [id]
+│   │   │   │   │       ├── layout.tsx
+│   │   │   │   │       ├── loading.tsx
+│   │   │   │   │       └── page.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── posts
+│   │   │   │       └── [id]
+│   │   │   │           ├── layout.tsx
+│   │   │   │           ├── loading.tsx
+│   │   │   │           └── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   └── loading.tsx
 │   ├── api
 │   │   ├── auth
 │   │   │   └── [...nextauth]
 │   │   │       └── route.ts
 │   │   ├── generate
 │   │   │   └── route.ts
+│   │   ├── revalidate
+│   │   │   └── route.ts
 │   │   └── upload
 │   │       └── route.ts
+│   ├── error.tsx
 │   ├── favicon.ico
 │   ├── global-error.tsx
 │   ├── layout.tsx
@@ -76,29 +84,26 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 │   ├── opengraph-image.jpeg
 │   ├── page.tsx
 │   ├── providers.tsx
-│   ├── test
-│   │   └── page.tsx
-│   └── type.d.ts
+│   ├── robots.ts
+│   ├── type.d.ts
+│   └── visualizer
+│       └── page.tsx
 ├── components
 │   ├── <custom-component>.tsx
 │   └── ui
-│       ├── <some-ui>.tsx
+│       ├── <ui-component>.tsx
 ├── components.json
 ├── lib
 │   ├── auth.ts
+│   ├── contexts
+│   │   └── AuthContext.tsx
+│   ├── converter.ts
 │   ├── extensions.ts
-│   ├── github-issues-api-v2.ts
 │   ├── github-issues-api.ts
 │   ├── hooks
-│   │   ├── use-local-storage.ts
-│   │   └── use-scroll-position.ts
+│   │   ├── <hook>.ts
 │   ├── selectors
-│   │   ├── ai-selector.tsx
-│   │   ├── color-selector.tsx
-│   │   ├── link-selector.tsx
-│   │   ├── node-selector.tsx
-│   │   └── text-buttons.tsx
-│   ├── showdown.ts
+│   │   ├── <selector>.tsx
 │   ├── suggestions.tsx
 │   └── utils.ts
 ├── next-env.d.ts
@@ -113,6 +118,8 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 │   └── prosemirror.css
 ├── tailwind.config.ts
 └── tsconfig.json
+
+29 directories, 88 files
 ```
 - v1: Self-hosted blog
   - `/`: The home page, listing all the blog posts.
@@ -134,10 +141,9 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 - [x] User Interface - Post Editor - Markdown and CRUD operations
 - [x] User Interface - Form Validation
 - [x] Hosting - Vercel: https://github-blog-blue.vercel.app
-- [x] Web Vitals - Chrome Extension
-![alt text](WebVitals.png)
 - [x] Lighthouse
-![alt text](LightHouse.png)
+![LightHouse](LightHouse.png)
+*Caption: LightHouse report (Remaining score are from packages)*
 
 ## Playground
 Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog. See the ***Guide*** Post for more information.
@@ -206,3 +212,4 @@ This app is built on the following stack:
 
 ## References
 Special thanks to [Novel](https://novel.sh/) for the template for the nice editor.
+*

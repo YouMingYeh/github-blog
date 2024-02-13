@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 export function SearchPageButton() {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger aria-label="search-repo">
         {/* <Button size="icon" variant="outline"> */}
         <MagnifyingGlassIcon />
         {/* </Button> */}
