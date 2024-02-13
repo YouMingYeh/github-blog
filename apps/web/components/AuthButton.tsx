@@ -16,7 +16,7 @@ export default async function AuthButton() {
     return (
       <div className="flex gap-2">
         <Link href={"/api/auth/signin"}>
-          <Button variant="outline" size="icon">
+          <Button aria-label="login" variant="outline" size="icon">
             <LogInIcon />
           </Button>
         </Link>
@@ -34,7 +34,7 @@ export default async function AuthButton() {
         <SearchPageButton />
       </div>
       <Link href={"/api/auth/signout"}>
-        <Button size="icon" variant="outline">
+        <Button aria-label="log-out" size="icon" variant="outline">
           <LogOutIcon />
         </Button>
       </Link>

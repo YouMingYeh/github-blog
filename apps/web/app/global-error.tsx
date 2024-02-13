@@ -21,7 +21,7 @@ export default function GlobalError({
         <AlertDescription>{error.message}</AlertDescription>
       </Alert>
       <h1 className="4xl"></h1>
-      <Button className="w-full" onClick={() => reset()}>
+      <Button aria-label="go-back" className="w-full" onClick={() => reset()}>
         Go Back
       </Button>
     </div>

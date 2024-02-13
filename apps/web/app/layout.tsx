@@ -24,6 +24,10 @@ export const metadata: Metadata = {
     description,
   },
   metadataBase: new URL("https://github-blog-blue.vercel.app/"),
+  applicationName: title,
+  authors: [{ name: "YouMingYeh" }],
+  keywords: ["GitHub", "Blog", "CMS", "WYSIWYG", "Notion"],
+  robots: "index, follow",
 };
 
 export const viewport: Viewport = {
@@ -33,6 +37,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://api.github.com" />
+
+        <link rel="dns-prefetch" href="https://api.github.com" />
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+
+        <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
+      </head>
       <body>
         <SpeedInsights />
         <Providers>
@@ -43,12 +55,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="fixed left-1 top-1 z-20 flex gap-1">
             <ModeToggle />
             <Link href="https://github.com/YouMingYeh/github-blog.git">
-              <Button size="icon" variant="outline">
+              <Button aria-label="github" size="icon" variant="outline">
                 <Github />
               </Button>
             </Link>
             <Link href="/">
-              <Button size="icon" variant="outline" className="">
+              <Button
+                aria-label="home"
+                size="icon"
+                variant="outline"
+                className=""
+              >
                 <HomeIcon />
               </Button>
             </Link>

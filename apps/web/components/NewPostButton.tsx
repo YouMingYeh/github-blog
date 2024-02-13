@@ -12,7 +12,7 @@ import {
 export function NewPostButton({ token }: { token: string }) {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger aria-label="create-page">
         {/* <Button size="icon" variant="outline"> */}
         <PlusCircleIcon />
         {/* </Button> */}
@@ -115,7 +115,11 @@ function AddForm({ token, className }: { token: string; className: string }) {
         />
       </div>
       <DialogClose disabled={title.length == 0 || body.length < 30}>
-        <Button type="submit" onClick={handleCreateIssue}>
+        <Button
+          aria-label="create-a-post"
+          type="submit"
+          onClick={handleCreateIssue}
+        >
           Create a Post!
         </Button>
       </DialogClose>

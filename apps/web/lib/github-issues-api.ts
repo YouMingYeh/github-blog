@@ -53,7 +53,6 @@ async function fetchGitHubAPI<T>(
     }
     return (await response.json()) as T;
   } catch (error) {
-    console.error("GitHub API request failed:", error);
     throw error;
   }
 }
@@ -72,7 +71,6 @@ export const createIssue = async (
       params,
     });
   } catch (error) {
-    console.error("Error creating issue:", error);
     throw error;
   }
 };
@@ -92,7 +90,6 @@ export const getIssues = async ({
       params,
     });
   } catch (error) {
-    console.error("Error getting issues:", error);
     throw error;
   }
 };
@@ -110,7 +107,6 @@ export const getIssue = async (
       params,
     });
   } catch (error) {
-    console.error("Error getting issue:", error);
     throw error;
   }
 };
@@ -130,7 +126,6 @@ export const updateIssue = async (
       params,
     });
   } catch (error) {
-    console.error("Error updating issue:", error);
     throw error;
   }
 };
@@ -149,7 +144,6 @@ export const closeIssue = async (
       params,
     });
   } catch (error) {
-    console.error("Error closing issue:", error);
     throw error;
   }
 };
@@ -167,7 +161,6 @@ export const getIssueComments = async (
       params,
     });
   } catch (error) {
-    console.error("Error getting issue comments:", error);
     throw error;
   }
 };

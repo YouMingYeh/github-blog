@@ -19,7 +19,6 @@ export const markdownToHtml = (markdown: string) => {
 
 // export const markdownToHtml = (markdown: string) => {
 //   let html = marked.parse(markdown);
-//   console.log(html);
 //   // remove the first and last <p> tags
 //   if (html.startsWith("<p>")) {
 //     html = html.slice(3);

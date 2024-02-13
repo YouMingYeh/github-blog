@@ -9,7 +9,7 @@ export function SubmitButton({ label }: { label: string }) {
   const { pending, data, method, action } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending}>
+    <Button aria-label="submit-button" type="submit" disabled={pending}>
       {pending ? <ReloadIcon className=" h-4 w-4 animate-spin" /> : label}
     </Button>
   );

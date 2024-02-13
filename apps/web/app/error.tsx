@@ -18,7 +18,7 @@ export default function Error({
         <AlertDescription>{error.message}</AlertDescription>
       </Alert>
       <h1 className="4xl"></h1>
-      <Button className="" onClick={() => reset()}>
+      <Button aria-label="go-back" className="" onClick={() => reset()}>
         Go Back
       </Button>
     </div>

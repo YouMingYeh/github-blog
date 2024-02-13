@@ -60,6 +60,7 @@ export default function IssueComments() {
         <div>No more comments</div>
       ) : (
         <Button
+          aria-label="load-more"
           onClick={() => {
             setLoading(true);
             setPage(page + 1);

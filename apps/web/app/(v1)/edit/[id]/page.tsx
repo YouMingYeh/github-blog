@@ -123,12 +123,13 @@ export default function Page() {
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="fixed bottom-5 right-5 z-10">
         <Link href={`/posts/${id}`}>
-          <Button size="icon" variant="ghost">
+          <Button aria-label="view-mode" size="icon" variant="ghost">
             <ViewIcon />
           </Button>
         </Link>
       </div>
       <Button
+        aria-label="save-all"
         variant="outline"
         className="fixed bottom-5 left-5 z-10"
         size="icon"
@@ -141,6 +142,7 @@ export default function Page() {
         <SaveAllIcon />
       </Button>
       <Button
+        aria-label="delete-page"
         variant="outline"
         className="fixed bottom-20 left-5 z-10"
         size="icon"

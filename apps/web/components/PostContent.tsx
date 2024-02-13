@@ -58,7 +58,6 @@ export default function PostContent({
   const [content, setContent] = useState<JSONContent | null>(
     generateJSON(htmlContent, extensions),
   );
-  console.log(htmlContent);
   const [title, setTitle] = useState(defaultTitle);
 
   const ableToEdit = token && (!owner || user.name === owner);
@@ -75,7 +74,7 @@ export default function PostContent({
             </Link>
           )}
         </div>
-        <div className="w-full py-8 text-center text-6xl ">{title}</div>
+        <h1 className="w-full py-8 text-center text-6xl ">{title}</h1>
         <EditorRoot>
           {content && (
             <EditorContent

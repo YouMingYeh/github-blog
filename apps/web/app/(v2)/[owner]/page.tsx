@@ -18,12 +18,12 @@ export default async function Page() {
     }));
 
     return (
-      <div className="relative z-0 p-3">
-        <h1 className="text-center text-3xl font-bold">Posts</h1>
+      <div className="z-0 p-3">
+        <h1 className="text-center text-3xl font-bold">Repos</h1>
         <HoverEffect items={items} />
       </div>
     );
   } catch (e) {
-    return <div>error</div>;
+    return <div>Hmm.. no repos found</div>;
   }
 }

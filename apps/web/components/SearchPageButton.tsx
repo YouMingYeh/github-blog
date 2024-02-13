@@ -65,7 +65,9 @@ async function SpecificPageForm() {
         />
       </div>
       <DialogClose>
-        <Button type="submit">Go!</Button>
+        <Button aria-label="go-search" type="submit">
+          Go!
+        </Button>
       </DialogClose>
     </form>
   );
