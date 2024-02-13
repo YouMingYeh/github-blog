@@ -72,7 +72,6 @@ export default function Page() {
       setSaveStatus("Saved");
       await fetch("/api/revalidate");
       router.refresh();
-      
     } catch (e) {
       setSaveStatus("Error saving");
       throw e;
@@ -113,8 +112,9 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       const issue = await closeIssue(Number(id), { token });
-      await fetch("/api/revalidate");
       router.refresh();
+      await fetch("/api/revalidate");
+
       router.replace("/");
     }
   }

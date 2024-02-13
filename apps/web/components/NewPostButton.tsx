@@ -34,12 +34,11 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 import { cn } from "@/lib/utils";
-import { createIssue as createIssueV1 } from "@/lib/github-issues-api";
-import { createIssue as createIssueV2 } from "@/lib/github-issues-api";
 import { PlusCircleIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { createIssue } from "@/lib/github-issues-api";
 
 function AddForm({ token, className }: { token: string; className: string }) {
   const [title, setTitle] = useState("");
@@ -54,17 +53,18 @@ function AddForm({ token, className }: { token: string; className: string }) {
       title,
       body,
     };
-    const newIssue = await createIssue(issueToCreate, token);
+
+    const newIssue = await createIssueWithForm(issueToCreate, token);
     await fetch("/api/revalidate");
     router.refresh();
     router.push(`/posts/${newIssue.number}`);
   }
 
-  async function createIssue(issue: GitHubIssue, token: string) {
+  async function createIssueWithForm(issue: GitHubIssue, token: string) {
     if (owner === "" || repo === "") {
-      return createIssueV1(issue, { token });
+      return createIssue(issue, { token });
     }
-    return createIssueV2(issue, { token, owner, repo });
+    return createIssue(issue, { token, owner, repo });
   }
 
   return (

@@ -82,7 +82,6 @@ export default function Page() {
       setSaveStatus("Saved");
       await fetch("/api/revalidate");
       router.refresh();
-      
     } catch (e) {
       throw e;
     }
@@ -130,8 +129,9 @@ export default function Page() {
         owner: owner as string,
         repo: repo as string,
       });
-      await fetch("/api/revalidate");
       router.refresh();
+      await fetch("/api/revalidate");
+
       router.replace("/");
     }
   }

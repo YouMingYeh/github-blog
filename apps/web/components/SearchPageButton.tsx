@@ -36,7 +36,7 @@ export function SearchPageButton() {
 }
 
 async function SpecificPageForm() {
-  async function handleCreateIssue(formData: FormData) {
+  async function handleSearch(formData: FormData) {
     "use server";
     const owner = formData.get("owner") as string;
     const repo = formData.get("repo") as string;
@@ -45,10 +45,7 @@ async function SpecificPageForm() {
   }
 
   return (
-    <form
-      className={cn("grid items-start gap-4")}
-      action={handleCreateIssue as any}
-    >
+    <form className={cn("grid items-start gap-4")} action={handleSearch as any}>
       <div className="grid gap-2">
         <Label htmlFor="owner">GitHub Profile Name</Label>
         <Input
