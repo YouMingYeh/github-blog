@@ -9,6 +9,8 @@
 
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
+  <a href="#demo"><strong>Demo</strong></a> ·
+  <a href="#project-structure"><strong>Project Structure</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#playground"><strong>Playground</strong></a> ·
   <a href="#installation"><strong>Installation</strong></a> ·
@@ -17,6 +19,12 @@
   <a href="#references"><strong>References</strong></a>
 </p>
 <br/>
+
+## Introduction
+
+[GitHub Blog](https://github-blog-blue.vercel.app) is a dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database.
+
+See <a href="#installation"><strong>Installation</strong></a> to get started right away.
 
 ## Demo
 [GitHub Blog](https://github-blog-blue.vercel.app/posts/1)
@@ -116,11 +124,10 @@
   - `/[owner]/[repo]/edit/[id]`: The editor page for the blog post.
   - `/[owner]/[repo]/posts/[id]`: The published blog post page.
 
-3. The app is divided into two versions, v1 and v2. The v1 is the self-host only version, and the v2 is the platform version, which can be used to host multiple blogs for multiple users and repos.
-4. The app is built with TypeScript, Shadcn/ui, and TailwindCSS.
-5. The app is using GitHub Issues as the backend database, and GitHub OAuth for authentication.
-6. The content of the blogs will be fetched in the server components and pass to the client components for rendering. This is to improve SEO.
-7. Requirements:
+3. The app is divided into two versions, v1 and v2. The v1 is the self-host version, and the v2 is the platform version, which can be used to host multiple blogs for multiple users and repos.
+4. The app is using GitHub Issues as the backend database, and GitHub OAuth for authentication.
+5. The content of the blogs will be fetched in the server components and pass to the client components for rendering. Also, utilizing the React Suspense feature. This is to improve SEO and UX.
+6. Requirements:
 - [x] GitHub OAuth Login
 - [x] Post Management
 - [x] User Interface - Pagination
@@ -132,13 +139,10 @@
 - [x] Lighthouse
 ![alt text](LightHouse.png)
 
-## How to start the app
-Video Tutorial: TODO 
-
 ## Playground
-Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog.
+Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog. See the ***Guide*** Post for more information.
 
-- Self-Hosted Blog: Configured via the .env file using `GITHUB_REPO` and `GITHUB_OWNER`, this mode personalizes the blog to your specific GitHub repository. It's designed for individual users who prefer a dedicated space for their content.
+- Self-Hosted Blog: Configured via the `.env` file using `GITHUB_REPO` and `GITHUB_OWNER`, this mode personalizes the blog to your specific GitHub repository. It's designed for individual users who prefer a dedicated space for their content.
 
 - Platform Blog: By specifying the repository details in the URL, like https://github-blog-blue.vercel.app/YouMingYeh/github-blog, the platform blog mode allows for dynamic content sourcing directly from any GitHub repository. This flexibility is perfect for showcasing various projects or collaborating across different repositories.
 
@@ -153,11 +157,6 @@ While you have the option to streamline the application by removing the unused v
 4. **GitHub App**: Use GitHub App with OAuth to authenticate users.
 5. **Infinite Scrolling with Pagination**: Use GitHub Issues API to implement infinite scrolling with pagination.
 
-## Introduction
-
-[GitHub Blog](https://github-blog-blue.vercel.app) is a dynamic, Notion-style WYSIWYG editor that innovatively utilizes GitHub Issues as its backend database.
-
-<br />
 
 ## Installation
 
