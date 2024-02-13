@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { Github } from "@/components/ui/icons";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const title = "GitHub Blog";
 const description =
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <SpeedInsights />
         <Providers>
           <div className="fixed right-1 top-1 z-20 flex gap-1">
             {/* @ts-expect-error Server Component */}

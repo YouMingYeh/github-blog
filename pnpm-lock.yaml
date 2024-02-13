@@ -90,6 +90,9 @@ importers:
       '@vercel/kv':
         specifier: ^0.2.1
         version: 0.2.2
+      '@vercel/speed-insights':
+        specifier: ^1.0.9
+        version: 1.0.9(next@14.1.0)(react@18.2.0)(svelte@4.2.0)(vue@3.3.4)
       ai:
         specifier: ^2.2.33
         version: 2.2.33(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
@@ -2599,6 +2602,36 @@ packages:
       '@upstash/redis': 1.21.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@vercel/speed-insights@1.0.9(next@14.1.0)(react@18.2.0)(svelte@4.2.0)(vue@3.3.4):
+    resolution: {integrity: sha512-f+XFP0O+aZ4Olj9h+BitkB1b4NJQaxtyCb69wWuDxytJHY6Pa4QtZPdBUftHOcajUCHRVeq062fk3MKXKtjNVQ==}
+    requiresBuild: true
+    peerDependencies:
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19
+      svelte: ^4
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+    dependencies:
+      next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      svelte: 4.2.0
+      vue: 3.3.4
     dev: false
 
   /@vue/compiler-core@3.3.4:
