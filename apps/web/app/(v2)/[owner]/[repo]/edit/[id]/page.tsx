@@ -69,17 +69,21 @@ export default function Page() {
       alert("Content cannot be less than 30 characters");
       return;
     }
-    await updateIssue(
-      Number(id),
-      { title, body: htmlContent },
-      {
-        token,
-        owner: owner as string,
-        repo: repo as string,
-      },
-    );
-    setSaveStatus("Saved");
-    router.refresh();
+    try {
+      await updateIssue(
+        Number(id),
+        { title, body: htmlContent },
+        {
+          token,
+          owner: owner as string,
+          repo: repo as string,
+        },
+      );
+      setSaveStatus("Saved");
+      router.refresh();
+    } catch (e) {
+      throw e;
+    }
   }, [id, title, htmlContent, router]);
 
   // Debounce updates

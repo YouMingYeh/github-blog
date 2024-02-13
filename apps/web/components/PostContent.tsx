@@ -42,7 +42,6 @@ const extensions = [
   updatedImage,
   taskList,
   taskItem,
-  slashCommand,
   placeholder,
 ];
 
