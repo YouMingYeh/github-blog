@@ -63,21 +63,21 @@ async function fetchGitHubAPI<T>(
 
 export const createIssue = async (
   issue: GitHubIssue,
-  {
-    token,
-    owner,
-    repo,
-    params,
-  }: GitHubOptions = {},
+  { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>("issues", {
-    method: "POST",
-    body: issue,
-    token,
-    owner,
-    repo,
-    params,
-  });
+  try {
+    return fetchGitHubAPI<GitHubIssue>("issues", {
+      method: "POST",
+      body: issue,
+      token,
+      owner,
+      repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error creating issue:", error);
+    throw error;
+  }
 };
 
 export const getIssues = async ({
@@ -85,87 +85,92 @@ export const getIssues = async ({
   owner,
   repo,
   params,
-}: GitHubOptions= {}): GitHubResponse<GitHubIssue[]> => {
-  return fetchGitHubAPI<GitHubIssue[]>("issues", {
-    method: "GET",
-    token: token,
-    owner: owner,
-    repo: repo,
-    params,
-  });
+}: GitHubOptions = {}): GitHubResponse<GitHubIssue[]> => {
+  try {
+    return fetchGitHubAPI<GitHubIssue[]>("issues", {
+      method: "GET",
+      token: token,
+      owner: owner,
+      repo: repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error getting issues:", error);
+    throw error;
+  }
 };
 
 export const getIssue = async (
   issue_number: number,
-  {
-    token,
-    owner,
-    repo,
-    params,
-  }: GitHubOptions= {},
+  { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "GET",
-    token,
-    owner,
-    repo,
-    params,
-  });
+  try {
+    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+      method: "GET",
+      token,
+      owner,
+      repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error getting issue:", error);
+    throw error;
+  }
 };
 
 export const updateIssue = async (
   issue_number: number,
   issue: GitHubIssue,
-  {
-    token,
-    owner,
-    repo,
-    params,
-  }: GitHubOptions= {},
+  { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "PATCH",
-    body: issue,
-    token,
-    owner,
-    repo,
-    params,
-  });
+  try {
+    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+      method: "PATCH",
+      body: issue,
+      token,
+      owner,
+      repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error updating issue:", error);
+    throw error;
+  }
 };
 
 export const closeIssue = async (
   issue_number: number,
-  {
-    token,
-    owner,
-    repo,
-    params,
-  }: GitHubOptions= {},
+  { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
-  return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
-    method: "PATCH",
-    body: { state: "closed" },
-    token,
-    owner,
-    repo,
-    params,
-  });
+  try {
+    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+      method: "PATCH",
+      body: { state: "closed" },
+      token,
+      owner,
+      repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error closing issue:", error);
+    throw error;
+  }
 };
 
 export const getIssueComments = async (
   issue_number: number,
-  {
-    token,
-    owner,
-    repo,
-    params,
-  }: GitHubOptions= {},
+  { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<IssueComment[]> => {
-  return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
-    method: "GET",
-    token,
-    owner,
-    repo,
-    params,
-  });
+  try {
+    return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
+      method: "GET",
+      token,
+      owner,
+      repo,
+      params,
+    });
+  } catch (error) {
+    console.error("Error getting issue comments:", error);
+    throw error;
+  }
 };

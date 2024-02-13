@@ -25,13 +25,14 @@ import {
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
 
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
 import { EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 const extensions = [
   starterKit,
@@ -45,7 +46,7 @@ const extensions = [
   placeholder,
 ];
 
-export default function Blog({
+export default function PostContent({
   defaultContent,
   defaultTitle,
 }: {
@@ -53,8 +54,9 @@ export default function Blog({
   defaultTitle: string;
 }) {
   if (typeof window === "undefined") return null;
+  const { token } = useAuth();
   const params = useParams();
-  const { id } = params;
+  const { id, owner, repo } = params;
   const htmlContent = markdownToHtml(defaultContent);
   const [content, setContent] = useState<JSONContent | null>(
     generateJSON(htmlContent, extensions),
@@ -66,9 +68,15 @@ export default function Blog({
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="relative w-full max-w-screen-lg">
         <div className="fixed bottom-5 right-5 z-10">
-          <Link href={`/edit/${id}`}>
-            <EditIcon />
-          </Link>
+          {token && (
+            <Link
+              href={
+                owner && repo ? `/${owner}/${repo}/edit/${id}` : `/edit/${id}`
+              }
+            >
+              <EditIcon />
+            </Link>
+          )}
         </div>
         <div className="w-full py-8 text-center text-6xl ">{title}</div>
         <EditorRoot>

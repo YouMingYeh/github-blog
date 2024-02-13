@@ -16,14 +16,16 @@ type FetchOptions = {
 
 type GitHubResponse<T> = Promise<T>;
 
+type User = {
+  name?: string;
+  email?: string;
+  image?: string;
+};
+
 // Type for my custom session with token
 type SessionWithToken = {
   token?: string;
-  user?: {
-    name?: string;
-    email?: string;
-    image?: string;
-  };
+  user?: User;
 };
 
 type IssueComment = {

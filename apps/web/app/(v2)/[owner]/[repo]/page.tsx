@@ -10,6 +10,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import { getIssues } from "@/lib/github-issues-api";
 import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 const SCROLL_THRESHOLD = 80;
 const PER_PAGE = 10;
@@ -20,6 +21,7 @@ export default function Page() {
   const [issues, setIssues] = useState<GitHubIssue[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const { token } = useAuth();
 
   const router = useRouter();
 
@@ -39,7 +41,6 @@ export default function Page() {
       direction: DIRECTION,
     };
 
-    const token = localStorage.getItem("token");
     const issues = await getIssues({
       token,
       owner,

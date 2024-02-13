@@ -59,11 +59,11 @@ import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
 import CustomEditor from "@/components/CustomEditor";
 import TitleEditor from "@/components/TitleEditor";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 export default function Page() {
   const { id }: { id: string } = useParams();
-  const { data } = useSession();
-  const session = data as SessionWithToken;
+  const { token } = useAuth();
   const router = useRouter();
 
   // Editor State
@@ -86,8 +86,6 @@ export default function Page() {
       alert("Content cannot be less than 30 characters");
       return;
     }
-
-    const token = localStorage.getItem("token");
     await updateIssue(Number(id), { title, body: htmlContent }, { token });
     setSaveStatus("Saved");
     router.refresh();
@@ -105,7 +103,6 @@ export default function Page() {
   // Initial data fetch
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
       const issue = await getIssue(Number(id), { token });
       const htmlContent = markdownToHtml(issue.body);
       setHtmlContent(htmlContent);
@@ -118,10 +115,6 @@ export default function Page() {
   }, [id]);
 
   useEffect(() => {
-    localStorage.setItem("token", session?.token);
-  }, [session]);
-
-  useEffect(() => {
     (async () => {
       if (saveStatus === "Saving...") {
         await updateRemote();
@@ -129,27 +122,8 @@ export default function Page() {
     })();
   }, [saveStatus]);
 
-  if (!session) {
-    return (
-      <div className="flex h-screen flex-col items-center justify-center ">
-        <p className="text-2xl">Fetching session...</p>
-        <p className="text-xl">Or, you need to sign in to edit the page</p>
-
-        <Link href="/api/auth/signin">
-          <Button
-            variant="outline"
-            className="hover:bg-accent-hover flex items-center gap-2"
-          >
-            <Github /> Sign in with GitHub
-          </Button>
-        </Link>
-      </div>
-    );
-  }
-
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
-      const token = localStorage.getItem("token");
       const issue = await closeIssue(Number(id), { token });
       router.refresh();
       router.replace("/");

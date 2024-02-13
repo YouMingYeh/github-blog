@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function IssueComments() {
   const [loading, setLoading] = useState(true);
   const [issueComments, setIssueComments] = useState([]);
-  const token = localStorage.getItem("token");
+  const { token } = useAuth();
   const params = useParams();
   const [page, setPage] = useState(1);
   const { id, owner, repo }: { id?: string; owner?: string; repo?: string } =
@@ -76,6 +76,7 @@ export default function IssueComments() {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
 import LoadingCircle from "./ui/icons/loading-circle";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 function CommentCard({ comment }: { comment: IssueComment }) {
   return (

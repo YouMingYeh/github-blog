@@ -63,9 +63,9 @@ function AddForm({ token, className }: { token: string; className: string }) {
 
   async function createIssue(issue: GitHubIssue, token: string) {
     if (owner === "" || repo === "") {
-      return createIssueV1(issue, token);
+      return createIssueV1(issue, { token });
     }
-    return createIssueV2(issue, owner, repo, token);
+    return createIssueV2(issue, { token, owner, repo });
   }
 
   return (

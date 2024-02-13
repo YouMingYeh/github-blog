@@ -10,6 +10,7 @@ import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
+import { AuthProvider } from "@/lib/contexts/AuthContext";
 
 export const AppContext = createContext<{
   font: string;
@@ -45,7 +46,9 @@ export default function Providers({ children }: { children: ReactNode }) {
         }}
       >
         <ToasterProvider />
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </SessionProvider>
         <Analytics />
       </AppContext.Provider>
     </ThemeProvider>
