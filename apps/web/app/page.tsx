@@ -78,19 +78,21 @@ export default function Page() {
   return (
     <div className="z-0 p-3">
       <h1 className="text-center text-3xl font-bold">Posts</h1>
-      <HoverEffect
-        items={issues.map((issue) => {
-          ("use server");
-          return {
-            title: issue.title,
-            description:
-              issue.body?.length > 100
-                ? `${issue.body?.slice(0, 100)}...`
-                : issue.body,
-            link: `/posts/${issue.number}`,
-          };
-        })}
-      />
+      <div className="min-h-2/3">
+        <HoverEffect
+          items={issues.map((issue) => {
+            ("use server");
+            return {
+              title: issue.title,
+              description:
+                issue.body?.length > 100
+                  ? `${issue.body?.slice(0, 100)}...`
+                  : issue.body,
+              link: `/posts/${issue.number}`,
+            };
+          })}
+        />
+      </div>
       {loading && (
         <div className="flex w-full justify-center">
           <LoadingCircle />
