@@ -54,7 +54,7 @@ export default function Blog({
 }) {
   if (typeof window === "undefined") return null;
   const params = useParams();
-  const { id } = params;
+  const { id }: { id?: string } = params;
   const htmlContent = markdownToHtml(defaultContent);
   const [content, setContent] = useState<JSONContent | null>(
     generateJSON(htmlContent, extensions),

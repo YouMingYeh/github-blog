@@ -39,7 +39,7 @@ export default function Page() {
     };
 
     const token = localStorage.getItem("token");
-    const issues = await getIssues(token, params);
+    const issues = await getIssues({ token, params });
 
     if (issues.length === 0 || !issues.length) {
       return;

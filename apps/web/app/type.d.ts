@@ -9,6 +9,8 @@ type FetchOptions = {
   method: string;
   body?: Record<string, string | number | boolean>;
   token: string;
+  owner?: string;
+  repo?: string;
   params?: Record<string, string | number | boolean>;
 };
 
@@ -32,4 +34,11 @@ type IssueComment = {
     avatar_url: string;
   };
   created_at: string;
+};
+
+type GitHubOptions = {
+  token?: string;
+  owner?: string;
+  repo?: string;
+  params?: Record<string, string | number | boolean>;
 };

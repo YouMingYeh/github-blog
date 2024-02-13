@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 // Utility to construct headers
-const getHeaders = (token: string | undefined) =>
+const getHeaders = (token?: string) =>
   token && token !== "undefined" && token !== "null"
     ? {
         Accept: "application/vnd.github+json",
@@ -13,14 +13,20 @@ const getHeaders = (token: string | undefined) =>
         "X-GitHub-Api-Version": "2022-11-28",
       };
 
+// Generalized fetchGitHubAPI function to include owner and repo dynamically
 async function fetchGitHubAPI<T>(
   endpoint: string,
-  { method, body, token, params }: FetchOptions,
+  { method, body, token, params, owner, repo }: FetchOptions,
 ): GitHubResponse<T> {
-  const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
-  const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
+  // Fallback to environment variables if owner or repo are not explicitly provided
+  const effectiveOwner = owner ?? process.env.NEXT_PUBLIC_GITHUB_OWNER;
+  const effectiveRepo = repo ?? process.env.NEXT_PUBLIC_GITHUB_REPO;
 
-  const baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
+  if (!effectiveOwner || !effectiveRepo) {
+    throw new Error("GitHub owner and repo must be specified");
+  }
+
+  const baseUrl = `https://api.github.com/repos/${effectiveOwner}/${effectiveRepo}`;
   let url = `${baseUrl}/${endpoint}`;
 
   // Append query parameters to the URL, if any
@@ -43,7 +49,6 @@ async function fetchGitHubAPI<T>(
     });
 
     if (!response.ok) {
-      // Handle non-2xx responses
       throw new Error(
         `GitHub API error: ${response.status} ${await response.text()}`,
       );
@@ -56,41 +61,54 @@ async function fetchGitHubAPI<T>(
   }
 }
 
-// const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER;
-// const repo = process.env.NEXT_PUBLIC_GITHUB_REPO;
-
 export const createIssue = async (
   issue: GitHubIssue,
-  token: string,
-  params?: Record<string, string | number | boolean>,
+  {
+    token,
+    owner,
+    repo,
+    params,
+  }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>("issues", {
     method: "POST",
     body: issue,
     token,
+    owner,
+    repo,
     params,
   });
 };
 
-export const getIssues = async (
-  token?: string,
-  params?: Record<string, string | number | boolean>,
-): GitHubResponse<GitHubIssue[]> => {
+export const getIssues = async ({
+  token,
+  owner,
+  repo,
+  params,
+}: GitHubOptions= {}): GitHubResponse<GitHubIssue[]> => {
   return fetchGitHubAPI<GitHubIssue[]>("issues", {
     method: "GET",
     token: token,
+    owner: owner,
+    repo: repo,
     params,
   });
 };
 
 export const getIssue = async (
   issue_number: number,
-  token?: string,
-  params?: Record<string, string | number | boolean>,
+  {
+    token,
+    owner,
+    repo,
+    params,
+  }: GitHubOptions= {},
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "GET",
     token,
+    owner,
+    repo,
     params,
   });
 };
@@ -98,38 +116,56 @@ export const getIssue = async (
 export const updateIssue = async (
   issue_number: number,
   issue: GitHubIssue,
-  token: string,
-  params?: Record<string, string | number | boolean>,
+  {
+    token,
+    owner,
+    repo,
+    params,
+  }: GitHubOptions= {},
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "PATCH",
     body: issue,
     token,
+    owner,
+    repo,
     params,
   });
 };
 
 export const closeIssue = async (
   issue_number: number,
-  token: string,
-  params?: Record<string, string | number | boolean>,
+  {
+    token,
+    owner,
+    repo,
+    params,
+  }: GitHubOptions= {},
 ): GitHubResponse<GitHubIssue> => {
   return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
     method: "PATCH",
     body: { state: "closed" },
     token,
+    owner,
+    repo,
     params,
   });
 };
 
 export const getIssueComments = async (
   issue_number: number,
-  token: string,
-  params?: Record<string, string | number | boolean>,
+  {
+    token,
+    owner,
+    repo,
+    params,
+  }: GitHubOptions= {},
 ): GitHubResponse<IssueComment[]> => {
   return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
     method: "GET",
     token,
+    owner,
+    repo,
     params,
   });
 };

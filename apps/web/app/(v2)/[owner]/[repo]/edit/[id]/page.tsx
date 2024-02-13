@@ -38,7 +38,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
-import { closeIssue, getIssue, updateIssue } from "@/lib/github-issues-api-v2";
+import { closeIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
 
 const extensions = [
   starterKit,
@@ -56,7 +56,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import type { Session } from "next-auth";
-import IssueComments from "@/components/IssueCommentsV2";
+import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
 
 export default function Page() {
@@ -95,9 +95,11 @@ export default function Page() {
     await updateIssue(
       Number(id),
       { title, body: htmlContent },
-      token,
-      owner as string,
-      repo as string,
+      {
+        token,
+        owner: owner as string,
+        repo: repo as string,
+      },
     );
     setSaveStatus("Saved");
     router.refresh();
@@ -116,12 +118,11 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-      const issue = await getIssue(
-        Number(id),
+      const issue = await getIssue(Number(id), {
         token,
-        owner as string,
-        repo as string,
-      );
+        owner: owner as string,
+        repo: repo as string,
+      });
       const htmlContent = markdownToHtml(issue.body);
       setHtmlContent(htmlContent);
       setContent(generateJSON(htmlContent, extensions));
@@ -165,12 +166,11 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       const token = localStorage.getItem("token");
-      const issue = await closeIssue(
-        Number(id),
+      const issue = await closeIssue(Number(id), {
         token,
-        owner as string,
-        repo as string,
-      );
+        owner: owner as string,
+        repo: repo as string,
+      });
       router.refresh();
       router.replace("/");
     }

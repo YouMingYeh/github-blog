@@ -8,7 +8,7 @@ import {
 } from "next/navigation";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
-import { getIssues } from "@/lib/github-issues-api-v2";
+import { getIssues } from "@/lib/github-issues-api";
 import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
 
 const SCROLL_THRESHOLD = 80;
@@ -28,18 +28,9 @@ export default function Page() {
   const pathname = usePathname();
 
   const params = useParams();
-  const { owner, repo } = params;
+  const { owner, repo }: { owner?: string; repo?: string } = params;
 
   const scrollPosition = useScrollPosition();
-
-  useEffect(() => {
-    if (scrollPosition > SCROLL_THRESHOLD) {
-      const nextPage = currentPage + 1;
-
-      router.push(`${pathname}?page=${nextPage}`, { scroll: false });
-      setLoading(true);
-    }
-  }, [scrollPosition]);
 
   const fetchData = async () => {
     const params = {
@@ -49,12 +40,12 @@ export default function Page() {
     };
 
     const token = localStorage.getItem("token");
-    const issues = await getIssues(
+    const issues = await getIssues({
       token,
-      owner as string,
-      repo as string,
+      owner,
+      repo,
       params,
-    );
+    });
 
     if (issues.length === 0 || !issues.length) {
       return;
@@ -69,6 +60,15 @@ export default function Page() {
     setCurrentPage(Number(searchParams.get("page")) || 1);
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (scrollPosition > SCROLL_THRESHOLD) {
+      const nextPage = currentPage + 1;
+
+      router.push(`${pathname}?page=${nextPage}`, { scroll: false });
+      setLoading(true);
+    }
+  }, [scrollPosition]);
 
   useEffect(() => {
     if (!loading) return;

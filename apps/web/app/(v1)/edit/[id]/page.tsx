@@ -55,12 +55,11 @@ const extensions = [
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
-import type { Session } from "next-auth";
 import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
 
 export default function Page() {
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
   const { data } = useSession();
   const session = data as SessionWithToken;
   const router = useRouter();
@@ -93,7 +92,7 @@ export default function Page() {
     }
 
     const token = localStorage.getItem("token");
-    await updateIssue(Number(id), { title, body: htmlContent }, token);
+    await updateIssue(Number(id), { title, body: htmlContent }, { token });
     setSaveStatus("Saved");
     router.refresh();
   }, [id, title, htmlContent, router]);
@@ -111,7 +110,7 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-      const issue = await getIssue(Number(id), token);
+      const issue = await getIssue(Number(id), { token });
       const htmlContent = markdownToHtml(issue.body);
       setHtmlContent(htmlContent);
       setContent(generateJSON(htmlContent, extensions));
@@ -155,7 +154,7 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       const token = localStorage.getItem("token");
-      const issue = await closeIssue(Number(id), token);
+      const issue = await closeIssue(Number(id), { token });
       router.refresh();
       router.replace("/");
     }

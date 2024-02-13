@@ -32,7 +32,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
-import LoadingCircle from "@/components/ui/icons/loading-circle";
 
 const extensions = [
   starterKit,
@@ -55,18 +54,19 @@ export default function Blog({
 }) {
   if (typeof window === "undefined") return null;
   const params = useParams();
-  const { id, owner, repo } = params;
+  const { id } = params;
   const htmlContent = markdownToHtml(defaultContent);
   const [content, setContent] = useState<JSONContent | null>(
     generateJSON(htmlContent, extensions),
   );
+  console.log(htmlContent);
   const [title, setTitle] = useState(defaultTitle);
 
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="relative w-full max-w-screen-lg">
         <div className="fixed bottom-5 right-5 z-10">
-          <Link href={`/${owner}/${repo}/edit/${id}`}>
+          <Link href={`/edit/${id}`}>
             <EditIcon />
           </Link>
         </div>

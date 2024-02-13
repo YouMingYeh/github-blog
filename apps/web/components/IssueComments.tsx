@@ -10,7 +10,8 @@ export default function IssueComments() {
   const token = localStorage.getItem("token");
   const params = useParams();
   const [page, setPage] = useState(1);
-  const { id } = params;
+  const { id, owner, repo }: { id?: string; owner?: string; repo?: string } =
+    params;
   const [noMoreComments, setNoMoreComments] = useState(false);
 
   useEffect(() => {
@@ -20,7 +21,12 @@ export default function IssueComments() {
         page: page,
         per_page: 10,
       };
-      const comments = await getIssueComments(Number(id), token, params);
+      const comments = await getIssueComments(Number(id), {
+        token,
+        owner,
+        repo,
+        params,
+      });
       setLoading(false);
 
       if (comments.length === 0) {
