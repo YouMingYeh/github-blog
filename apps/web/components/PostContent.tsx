@@ -54,7 +54,7 @@ export default function PostContent({
   defaultTitle: string;
 }) {
   if (typeof window === "undefined") return null;
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const params = useParams();
   const { id, owner, repo } = params;
   const htmlContent = markdownToHtml(defaultContent);
@@ -64,16 +64,16 @@ export default function PostContent({
   console.log(htmlContent);
   const [title, setTitle] = useState(defaultTitle);
 
+  const ableToEdit = token && (!owner || user.name === owner);
+  const linkToEdit =
+    owner && repo ? `/${owner}/${repo}/edit/${id}` : `/edit/${id}`;
+
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="relative w-full max-w-screen-lg">
         <div className="fixed bottom-5 right-5 z-10">
-          {token && (
-            <Link
-              href={
-                owner && repo ? `/${owner}/${repo}/edit/${id}` : `/edit/${id}`
-              }
-            >
+          {ableToEdit && (
+            <Link href={linkToEdit}>
               <EditIcon />
             </Link>
           )}

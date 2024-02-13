@@ -36,8 +36,6 @@ import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import { createIssue as createIssueV1 } from "@/lib/github-issues-api";
 import { createIssue as createIssueV2 } from "@/lib/github-issues-api";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { PlusCircleIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
