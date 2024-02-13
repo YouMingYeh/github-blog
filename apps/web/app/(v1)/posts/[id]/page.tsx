@@ -1,4 +1,4 @@
-import { getIssue, updateIssue } from "@/lib/github-issues-api";
+import { getIssue } from "@/lib/github-issues-api";
 import PostContent from "@/components/PostContent";
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;

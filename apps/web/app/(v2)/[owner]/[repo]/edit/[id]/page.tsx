@@ -1,7 +1,5 @@
 "use client";
 
-import { Github } from "@/components/ui/icons";
-
 import { Editor, type JSONContent } from "novel";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -34,10 +32,8 @@ const extensions = [
   placeholder,
 ];
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
-import type { Session } from "next-auth";
 import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
 import CustomEditor from "@/components/CustomEditor";

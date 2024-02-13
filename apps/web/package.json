@@ -8,7 +8,8 @@
     "start": "next start",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
@@ -45,7 +46,6 @@
     "framer-motion": "^11.0.3",
     "jsdom": "^24.0.0",
     "lucide-react": "^0.244.0",
-    "marked": "^12.0.0",
     "next": "14.1.0",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
@@ -53,8 +53,6 @@
     "openai": "^4.27.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-markdown": "^8.0.5",
-    "react-query": "^3.39.3",
     "showdown": "^2.1.0",
     "sonner": "^0.7.0",
     "tailwind-merge": "^1.14.0",

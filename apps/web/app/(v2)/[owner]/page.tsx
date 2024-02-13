@@ -1,12 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import Link from "next/link";
+import React from "react";
+import { useParams } from "next/navigation";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 export default async function Page() {

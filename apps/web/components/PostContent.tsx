@@ -17,7 +17,6 @@ import {
   tiptapLink,
   updatedImage,
   horizontalRule,
-  slashCommand,
   starterKit,
   placeholder,
 } from "@/lib/extensions";
@@ -25,10 +24,9 @@ import {
 import { suggestionItems } from "@/lib/suggestions";
 import { ImageResizer } from "novel/extensions";
 
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
 import { EditIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import IssueComments from "@/components/IssueComments";
 import { markdownToHtml } from "@/lib/converter";
