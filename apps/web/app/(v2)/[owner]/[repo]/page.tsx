@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   useParams,
   usePathname,
@@ -48,6 +48,7 @@ export default function Page() {
       params,
     });
 
+    setLoading(false);
     if (issues.length === 0 || !issues.length) {
       return;
     }
@@ -59,10 +60,10 @@ export default function Page() {
       return [...prev, ...unique];
     });
     setCurrentPage(Number(searchParams.get("page")) || 1);
-    setLoading(false);
   };
 
   useEffect(() => {
+    if (loading) return;
     if (scrollPosition > SCROLL_THRESHOLD) {
       const nextPage = currentPage + 1;
 
@@ -79,12 +80,15 @@ export default function Page() {
   }, [loading]);
 
   useEffect(() => {
-    if (searchParams.get("page")) {
-      router.push(`${pathname}`, { scroll: false });
-    }
     if (!loading) return;
     fetchData();
   }, [searchParams]);
+
+  useEffect(() => {
+    if (searchParams.get("page")) {
+      router.push(`${pathname}`, { scroll: false });
+    }
+  }, []);
 
   return (
     <div className="relative z-0 p-3">

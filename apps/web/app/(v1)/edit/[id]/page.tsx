@@ -1,18 +1,8 @@
 "use client";
 
-import { Github } from "@/components/ui/icons";
+// export const revalidate = 0;
 
-import {
-  defaultEditorProps,
-  Editor,
-  EditorRoot,
-  EditorBubble,
-  EditorCommand,
-  EditorCommandItem,
-  EditorCommandEmpty,
-  EditorContent,
-  type JSONContent,
-} from "novel";
+import { Editor, type JSONContent } from "novel";
 import { useCallback, useEffect, useState } from "react";
 import {
   taskItem,
@@ -25,15 +15,7 @@ import {
   starterKit,
   placeholder,
 } from "@/lib/extensions";
-import { NodeSelector } from "@/lib/selectors/node-selector";
-import { LinkSelector } from "@/lib/selectors/link-selector";
-import { ColorSelector } from "@/lib/selectors/color-selector";
-import TextButtons from "@/lib/selectors/text-buttons";
-import { suggestionItems } from "@/lib/suggestions";
-import { ImageResizer } from "novel/extensions";
-import { AISelector } from "@/lib/selectors/ai-selector";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useDebouncedCallback } from "use-debounce";
 import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -52,7 +34,6 @@ const extensions = [
   placeholder,
 ];
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
 import IssueComments from "@/components/IssueComments";
@@ -89,7 +70,9 @@ export default function Page() {
     try {
       await updateIssue(Number(id), { title, body: htmlContent }, { token });
       setSaveStatus("Saved");
+      await fetch("/api/revalidate");
       router.refresh();
+      
     } catch (e) {
       setSaveStatus("Error saving");
       throw e;
@@ -130,6 +113,7 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       const issue = await closeIssue(Number(id), { token });
+      await fetch("/api/revalidate");
       router.refresh();
       router.replace("/");
     }

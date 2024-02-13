@@ -1,5 +1,3 @@
-// export const dynamic = "force-dynamic";
-
 // Utility to construct headers
 const getHeaders = (token?: string) =>
   token && token !== "undefined" && token !== "null"
@@ -45,7 +43,6 @@ async function fetchGitHubAPI<T>(
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
-      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -53,7 +50,6 @@ async function fetchGitHubAPI<T>(
         `GitHub API error: ${response.status} ${await response.text()}`,
       );
     }
-
     return (await response.json()) as T;
   } catch (error) {
     console.error("GitHub API request failed:", error);

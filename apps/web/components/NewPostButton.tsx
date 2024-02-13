@@ -55,6 +55,7 @@ function AddForm({ token, className }: { token: string; className: string }) {
       body,
     };
     const newIssue = await createIssue(issueToCreate, token);
+    await fetch("/api/revalidate");
     router.refresh();
     router.push(`/posts/${newIssue.number}`);
   }
