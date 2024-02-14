@@ -2,7 +2,7 @@
 
 import { getIssueComments } from "@/lib/github-issues-api";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function IssueComments() {
   const [loading, setLoading] = useState(true);
@@ -14,34 +14,34 @@ export default function IssueComments() {
     params;
   const [noMoreComments, setNoMoreComments] = useState(false);
 
+  const fetchData = useCallback(async () => {
+    const params = {
+      page: page,
+      per_page: 10,
+    };
+    const comments = await getIssueComments(Number(id), {
+      token,
+      owner,
+      repo,
+      params,
+    });
+    setLoading(false);
+
+    if (comments.length === 0) {
+      setNoMoreComments(true);
+      return;
+    }
+    //   setIssueComments(comments);
+    setIssueComments((prev) => {
+      const unique = comments?.filter(
+        (comment) => !prev.some((prevComment) => prevComment.id === comment.id),
+      );
+      return [...prev, ...unique];
+    });
+  }, [id, page, token, owner, repo]);
+
   useEffect(() => {
     if (!loading) return;
-    const fetchData = async () => {
-      const params = {
-        page: page,
-        per_page: 10,
-      };
-      const comments = await getIssueComments(Number(id), {
-        token,
-        owner,
-        repo,
-        params,
-      });
-      setLoading(false);
-
-      if (comments.length === 0) {
-        setNoMoreComments(true);
-        return;
-      }
-      //   setIssueComments(comments);
-      setIssueComments((prev) => {
-        const unique = comments?.filter(
-          (comment) =>
-            !prev.some((prevComment) => prevComment.id === comment.id),
-        );
-        return [...prev, ...unique];
-      });
-    };
 
     fetchData();
   }, [id, page, loading]);
