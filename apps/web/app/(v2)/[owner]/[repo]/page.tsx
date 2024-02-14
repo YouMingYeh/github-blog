@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useParams,
   usePathname,
@@ -35,7 +35,7 @@ export default function Page() {
 
   const scrollPosition = useScrollPosition();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const params = {
       page: searchParams.get("page"),
       per_page: String(PER_PAGE),
@@ -61,7 +61,7 @@ export default function Page() {
       return [...prev, ...unique];
     });
     setCurrentPage(Number(searchParams.get("page")) || 1);
-  };
+  }, [searchParams, token, owner, repo]);
 
   useEffect(() => {
     if (loading) return;
@@ -91,6 +91,19 @@ export default function Page() {
     }
   }, []);
 
+  const mappedIssues = useMemo(() => {
+    return issues.map((issue) => {
+      return {
+        title: issue.title,
+        description:
+          issue.body?.length > 100
+            ? `${issue.body?.slice(0, 100)}...`
+            : issue.body,
+        link: `/posts/${issue.number}`,
+      };
+    });
+  }, [issues]);
+
   return (
     <div className="z-0 p-3">
       <h1 className="text-center text-3xl font-bold">Posts</h1>
@@ -102,19 +115,7 @@ export default function Page() {
             <Skeleton className="group relative block h-48 rounded-xl md:w-96 lg:w-72" />
           </div>
         ) : (
-          <HoverEffect
-            items={issues.map((issue) => {
-              ("use server");
-              return {
-                title: issue.title,
-                description:
-                  issue.body?.length > 100
-                    ? `${issue.body?.slice(0, 100)}...`
-                    : issue.body,
-                link: `/posts/${issue.number}`,
-              };
-            })}
-          />
+          <HoverEffect items={mappedIssues} />
         )}
       </div>
       {loading && (
