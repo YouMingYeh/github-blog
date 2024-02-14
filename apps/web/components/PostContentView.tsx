@@ -28,7 +28,7 @@ import { useParams } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
 import { EditIcon } from "lucide-react";
 import Link from "next/link";
-import IssueComments from "@/components/IssueComments";
+import IssueComments from "@/components/IssueCommentsView";
 import { markdownToHtml } from "@/lib/converter";
 import { useAuth } from "@/lib/contexts/AuthContext";
 

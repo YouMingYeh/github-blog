@@ -1,5 +1,5 @@
 import { getIssue } from "@/lib/github-issues-api";
-import PostContent from "@/components/PostContent";
+import PostContent from "@/components/PostContentView";
 import type { Metadata } from "next";
 
 type Props = {

@@ -9,6 +9,8 @@ import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// export const runtime = "edge";
+
 const SCROLL_THRESHOLD = 80;
 const PER_PAGE = 10;
 const DIRECTION = "asc";

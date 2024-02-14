@@ -34,7 +34,7 @@ const extensions = [
 
 import Link from "next/link";
 import LoadingCircle from "@/components/ui/icons/loading-circle";
-import IssueComments from "@/components/IssueComments";
+import IssueComments from "@/components/IssueCommentsView";
 import { markdownToHtml } from "@/lib/converter";
 import CustomEditor from "@/components/CustomEditor";
 import TitleEditor from "@/components/TitleEditor";
