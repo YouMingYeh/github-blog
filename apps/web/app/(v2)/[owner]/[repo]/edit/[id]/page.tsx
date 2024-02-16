@@ -120,7 +120,7 @@ export default function Page() {
 
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
-      const issue = await closeIssue(Number(id), {
+      await closeIssue(Number(id), {
         token,
         owner: owner as string,
         repo: repo as string,
@@ -170,7 +170,7 @@ export default function Page() {
       ) : (
         <div className=" w-full max-w-screen-lg">
           <div className="fixed left-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
-            <label>Auto Save Interval: </label>
+            <label htmlFor="autoSaveInterval">Auto Save Interval: </label>
             <input
               value={autoSaveInterval}
               name="autoSaveInterval"
@@ -179,7 +179,7 @@ export default function Page() {
               }}
               className="w-10 bg-background px-1 text-center text-muted-foreground"
             />
-            <label>secs </label>
+            <span>secs </span>
           </div>
 
           <div className="fixed right-5 top-32 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground sm:top-20">
