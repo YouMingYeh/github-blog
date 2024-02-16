@@ -5,7 +5,7 @@ import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
-export function SubmitButton({ label }: { label: string }) {
+export function SubmitButton({ label }: { readonly label: string }) {
   const { pending, data, method, action } = useFormStatus();
 
   return (

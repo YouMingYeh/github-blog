@@ -47,18 +47,16 @@ export default function PostContent({
   defaultContent,
   defaultTitle,
 }: {
-  defaultContent: string;
-  defaultTitle: string;
+  readonly defaultContent: string;
+  readonly defaultTitle: string;
 }) {
   if (typeof window === "undefined") return null;
   const { token, user } = useAuth();
   const params = useParams();
   const { id, owner, repo } = params;
   const htmlContent = markdownToHtml(defaultContent);
-  const [content, setContent] = useState<JSONContent | null>(
-    generateJSON(htmlContent, extensions),
-  );
-  const [title, setTitle] = useState(defaultTitle);
+  const content: JSONContent = generateJSON(htmlContent, extensions);
+  const title = defaultTitle;
 
   const ableToEdit = token && (!owner || user.name === owner);
   const linkToEdit =

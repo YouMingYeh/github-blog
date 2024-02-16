@@ -9,7 +9,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export function NewPostButton({ token }: { token: string }) {
+
+
+export function NewPostButton({ token }: { readonly token: string }) {
   return (
     <Dialog>
       <DialogTrigger aria-label="create-page">
@@ -40,7 +42,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createIssue } from "@/lib/github-issues-api";
 
-function AddForm({ token, className }: { token: string; className: string }) {
+function AddForm({ token, className }: { readonly token: string; readonly className: string }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [owner, setOwner] = useState("");

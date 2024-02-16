@@ -3,9 +3,9 @@ export default function TitleEditor({
   setTitle,
   setSaveStatus,
 }: {
-  title: string;
-  setTitle: (title: string) => void;
-  setSaveStatus: (status: string) => void;
+  readonly title: string;
+  readonly setTitle: (title: string) => void;
+  readonly setSaveStatus: (status: string) => void;
 }) {
   return (
     <input
