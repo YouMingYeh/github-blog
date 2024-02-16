@@ -6,13 +6,15 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { Button } from "@/components/ui/button";
 
+interface GlobalErrorProps {
+  readonly error: Error & { digest?: string };
+  readonly reset: () => void;
+}
+
 export default function GlobalError({
   error,
   reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+}: GlobalErrorProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-10">
       <Alert variant="destructive">

@@ -3,7 +3,11 @@ import PostContent from "@/components/PostContentView";
 import type { Metadata } from "next";
 
 type Props = {
-  params: { id: string; owner: string; repo: string };
+  readonly params: {
+    readonly id: string;
+    readonly owner: string;
+    readonly repo: string;
+  };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -19,7 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+interface PageProps {
+  readonly params: { readonly id: string };
+}
+
+export default async function Page({ params }: PageProps) {
   const { id } = params;
 
   const issue = await getIssue(Number(id));

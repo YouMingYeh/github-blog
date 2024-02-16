@@ -1,6 +1,10 @@
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 
-export default async function Page({ params }: { params: { owner: string } }) {
+interface PageProps {
+  readonly params: { readonly owner: string };
+}
+
+export default async function Page({ params }: PageProps) {
   const { owner } = params;
 
   const repos = await fetch(`https://api.github.com/users/${owner}/repos`);

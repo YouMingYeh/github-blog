@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { id?: string; owner?: string; repo?: string };
-}) {
+interface PageProps {
+  readonly params: { readonly id: string; readonly owner: string; readonly repo: string };
+}
+
+export default async function Page({ params }: PageProps) {
   const { id, owner, repo } = params;
 
   const issue = await getIssue(Number(id), { owner, repo });

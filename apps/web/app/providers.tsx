@@ -29,7 +29,11 @@ const ToasterProvider = () => {
 
 import { SessionProvider } from "next-auth/react";
 
-export default function Providers({ children }: { children: ReactNode }) {
+interface ProvidersProps {
+  readonly children: ReactNode;
+}
+
+export default function Providers({ children }: ProvidersProps) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
   return (
