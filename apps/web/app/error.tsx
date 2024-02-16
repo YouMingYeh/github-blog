@@ -8,10 +8,7 @@ interface ErrorProps {
   readonly reset: () => void;
 }
 
-export default function Error({
-  error,
-  reset,
-}: ErrorProps) {
+export default function ErrorPage({ error, reset }: ErrorProps) {
   return (
     <div className="flex h-full w-2/3 flex-col items-center justify-center gap-10">
       <Alert variant="destructive">
@@ -19,7 +16,6 @@ export default function Error({
         <AlertTitle>Oops! Something went wrong</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
       </Alert>
-      <h1 className="4xl"></h1>
       <Button aria-label="go-back" className="" onClick={() => reset()}>
         Go Back
       </Button>

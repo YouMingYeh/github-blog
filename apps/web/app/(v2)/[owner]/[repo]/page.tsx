@@ -54,10 +54,10 @@ export default function Page() {
       return;
     }
 
+    const isUnique = (issue : GitHubIssue, prev: GitHubIssue[]) => !prev.some((prevIssue) => prevIssue.number === issue.number);
+
     setIssues((prev) => {
-      const unique = issues?.filter(
-        (issue) => !prev.some((prevIssue) => prevIssue.number === issue.number),
-      );
+      const unique = issues?.filter((issue) => isUnique(issue, prev));
       return [...prev, ...unique];
     });
     setCurrentPage(Number(searchParams.get("page")) || 1);

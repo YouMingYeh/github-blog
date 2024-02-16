@@ -1,6 +1,6 @@
-import { getIssue, updateIssue } from "@/lib/github-issues-api";
+import { getIssue } from "@/lib/github-issues-api";
 import PostContent from "@/components/PostContentView";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 
 type Props = {
   params: { id: string; owner: string; repo: string };
@@ -20,7 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 interface PageProps {
-  readonly params: { readonly id: string; readonly owner: string; readonly repo: string };
+  readonly params: {
+    readonly id: string;
+    readonly owner: string;
+    readonly repo: string;
+  };
 }
 
 export default async function Page({ params }: PageProps) {

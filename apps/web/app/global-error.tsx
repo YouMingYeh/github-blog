@@ -11,10 +11,7 @@ interface GlobalErrorProps {
   readonly reset: () => void;
 }
 
-export default function GlobalError({
-  error,
-  reset,
-}: GlobalErrorProps) {
+export default function GlobalError({ error, reset }: GlobalErrorProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-10">
       <Alert variant="destructive">
@@ -22,7 +19,6 @@ export default function GlobalError({
         <AlertTitle>Oops! Something went wrong...</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
       </Alert>
-      <h1 className="4xl"></h1>
       <Button aria-label="go-back" className="w-full" onClick={() => reset()}>
         Go Back
       </Button>

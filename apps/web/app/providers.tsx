@@ -5,6 +5,7 @@ import {
   type ReactNode,
   type SetStateAction,
   createContext,
+  useMemo,
 } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
@@ -36,6 +37,7 @@ interface ProvidersProps {
 export default function Providers({ children }: ProvidersProps) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
+  const value = useMemo(() => ({ font, setFont }), [font, setFont]);
   return (
     <ThemeProvider
       attribute="class"
@@ -43,12 +45,7 @@ export default function Providers({ children }: ProvidersProps) {
       disableTransitionOnChange
       defaultTheme="system"
     >
-      <AppContext.Provider
-        value={{
-          font,
-          setFont,
-        }}
-      >
+      <AppContext.Provider value={value}>
         <ToasterProvider />
         <SessionProvider>
           <AuthProvider>{children}</AuthProvider>
