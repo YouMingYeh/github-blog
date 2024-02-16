@@ -16,6 +16,7 @@ const FETCH_DELAY = 5000;
 
 export default function Page() {
   const { token } = useAuth();
+  console.log(token);
   const [issues, setIssues] = useState<GitHubIssue[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(0);

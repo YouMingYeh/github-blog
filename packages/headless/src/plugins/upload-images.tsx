@@ -1,5 +1,4 @@
 //@ts-nocheck
-//TODO: remove ts-nocheck from here some day
 import { toast } from "sonner";
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, EditorView } from "@tiptap/pm/view";
