@@ -23,7 +23,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user, account }) => {
-      if (account?.access_token) {
+      if (account && account.access_token) {
         // set access_token to the token payload
         token.accessToken = account.access_token;
       }
