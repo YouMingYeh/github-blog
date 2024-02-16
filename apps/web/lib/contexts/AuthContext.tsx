@@ -14,7 +14,7 @@ const defaultContextValue: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 export const AuthProvider = ({ children }) => {
-  const data = useSession();
+  const { data: data } = useSession();
   const session = data as SessionWithToken;
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
