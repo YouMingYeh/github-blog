@@ -7,14 +7,13 @@ import {
   HorizontalRule,
   StarterKit,
   Placeholder,
+  Command,
+  renderItems,
 } from "novel/extensions";
 import { UploadImagesPlugin } from "novel/plugins";
 
-import { Command, renderItems } from "novel/extensions";
 import { querySuggestions } from "./suggestions";
 import { cx } from "class-variance-authority";
-
-//TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 
 //You can overwrite the placeholder with your own configuration
 export const placeholder = Placeholder;

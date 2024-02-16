@@ -1,5 +1,11 @@
 import GithubProvider from "next-auth/providers/github";
-import { type AuthOptions } from "next-auth";
+
+import {
+  type GetServerSidePropsContext,
+  type NextApiRequest,
+  type NextApiResponse,
+} from "next";
+import { type AuthOptions, getServerSession } from "next-auth";
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -17,7 +23,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user, account }) => {
-      if (account && account.access_token) {
+      if (account?.access_token) {
         // set access_token to the token payload
         token.accessToken = account.access_token;
       }
@@ -32,13 +38,6 @@ export const authOptions: AuthOptions = {
     },
   },
 };
-
-import {
-  type GetServerSidePropsContext,
-  type NextApiRequest,
-  type NextApiResponse,
-} from "next";
-import { type NextAuthOptions, getServerSession } from "next-auth";
 
 export function auth( // <-- use this function to access the jwt from React components
   ...args:

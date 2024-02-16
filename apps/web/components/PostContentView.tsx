@@ -9,7 +9,6 @@ import {
   EditorContent,
   type JSONContent,
 } from "novel";
-import { useState } from "react";
 import {
   taskItem,
   taskList,
@@ -50,7 +49,6 @@ export default function PostContent({
   readonly defaultContent: string;
   readonly defaultTitle: string;
 }) {
-  if (typeof window === "undefined") return null;
   const { token, user } = useAuth();
   const params = useParams();
   const { id, owner, repo } = params;
@@ -61,7 +59,7 @@ export default function PostContent({
   const ableToEdit = token && (!owner || user.name === owner);
   const linkToEdit =
     owner && repo ? `/${owner}/${repo}/edit/${id}` : `/edit/${id}`;
-
+  if (typeof window === "undefined") return null;
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(10vh)]">
       <div className="relative w-full max-w-screen-lg">

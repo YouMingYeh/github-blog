@@ -9,8 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-
-
 export function NewPostButton({ token }: { readonly token: string }) {
   return (
     <Dialog>
@@ -42,7 +40,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createIssue } from "@/lib/github-issues-api";
 
-function AddForm({ token, className }: { readonly token: string; readonly className: string }) {
+function AddForm({
+  token,
+  className,
+}: {
+  readonly token: string;
+  readonly className: string;
+}) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [owner, setOwner] = useState("");

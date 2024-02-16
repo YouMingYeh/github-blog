@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import { useSession } from "next-auth/react";
 
 interface AuthContextType {
@@ -14,10 +20,12 @@ const defaultContextValue: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 export const AuthProvider = ({ children }) => {
-  const { data: data } = useSession();
+  const data = useSession();
   const session = data as SessionWithToken;
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+
+  const value = useMemo(() => ({ token, user }), [token, user]);
 
   useEffect(() => {
     // Assuming your session object has the token at session.token
@@ -29,11 +37,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session]);
 
-  return (
-    <AuthContext.Provider value={{ token, user }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

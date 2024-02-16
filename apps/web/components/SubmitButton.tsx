@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export function SubmitButton({ label }: { readonly label: string }) {
-  const { pending, data, method, action } = useFormStatus();
+  const { pending } = useFormStatus();
 
   return (
     <Button aria-label="submit-button" type="submit" disabled={pending}>

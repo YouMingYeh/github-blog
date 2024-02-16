@@ -31,15 +31,14 @@ export default function IssueComments() {
       setNoMoreComments(true);
       return;
     }
-    const mergeComments = (prevComments, newComments) => {
-      const unique = newComments?.filter(
-        (comment) =>
-          !prevComments.some((prevComment) => prevComment.id === comment.id),
-      );
-      return [...prevComments, ...unique];
-    };
 
-    setIssueComments((prevComments) => mergeComments(prevComments, comments));
+    const isUnique = (comment: IssueComment, prev: IssueComment[]) =>
+      !prev.some((prevComment) => prevComment.id === comment.id);
+
+    setIssueComments((prev) => {
+      const unique = comments?.filter((comment) => isUnique(comment, prev));
+      return [...prev, ...unique];
+    });
   }, [id, page, token, owner, repo]);
 
   useEffect(() => {
@@ -87,18 +86,16 @@ import { useAuth } from "@/lib/contexts/AuthContext";
 interface IssueCommentProps {
   readonly comment: IssueComment;
 }
-  
+
 function CommentCard({ comment }: IssueCommentProps) {
   return (
     <div className="relative my-1 flex w-full items-center space-x-2 rounded-md border p-3 ">
       <Avatar className=" aspect-square">
         <AvatarImage
           src={comment.user.avatar_url}
-          alt={(comment.user.login).substring(0, 2)}
+          alt={comment.user.login.substring(0, 2)}
         />
-        <AvatarFallback>
-          {(comment.user.login).substring(0, 2)}
-        </AvatarFallback>
+        <AvatarFallback>{comment.user.login.substring(0, 2)}</AvatarFallback>
       </Avatar>
       <div className="flex-1 space-y-1">
         <p className="text-sm font-medium leading-none">{comment.user.login}</p>
