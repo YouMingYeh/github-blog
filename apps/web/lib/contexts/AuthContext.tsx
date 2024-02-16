@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 
 interface AuthContextType {
@@ -29,8 +29,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session]);
 
+  const authValue = useMemo(() => ({ token, user }), [token, user]);
+
   return (
-    <AuthContext.Provider value={{ token, user }}>
+    <AuthContext.Provider value={authValue}>
       {children}
     </AuthContext.Provider>
   );
