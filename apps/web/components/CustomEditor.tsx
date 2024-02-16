@@ -46,9 +46,9 @@ import LoadingCircle from "./ui/icons/loading-circle";
 import { useState } from "react";
 
 interface CustomEditorProps {
-  content: JSONContent;
-  debouncedUpdates: (editor: Editor) => void;
-  setSaveStatus: (status: string) => void;
+  readonly content: JSONContent;
+  readonly debouncedUpdates: (editor: Editor) => void;
+  readonly setSaveStatus: (status: string) => void;
 }
 
 export default function CustomEditor({

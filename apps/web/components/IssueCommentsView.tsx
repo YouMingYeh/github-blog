@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function IssueComments() {
   const [loading, setLoading] = useState(true);
-  const [issueComments, setIssueComments] = useState([]);
+  const [issueComments, setIssueComments] = useState<IssueComment[]>([]);
   const { token } = useAuth();
   const params = useParams();
   const [page, setPage] = useState(1);
@@ -31,13 +31,15 @@ export default function IssueComments() {
       setNoMoreComments(true);
       return;
     }
-    //   setIssueComments(comments);
-    setIssueComments((prev) => {
-      const unique = comments?.filter(
-        (comment) => !prev.some((prevComment) => prevComment.id === comment.id),
+    const mergeComments = (prevComments, newComments) => {
+      const unique = newComments?.filter(
+        (comment) =>
+          !prevComments.some((prevComment) => prevComment.id === comment.id),
       );
-      return [...prev, ...unique];
-    });
+      return [...prevComments, ...unique];
+    };
+
+    setIssueComments((prevComments) => mergeComments(prevComments, comments));
   }, [id, page, token, owner, repo]);
 
   useEffect(() => {
@@ -54,7 +56,10 @@ export default function IssueComments() {
     <div className="flex w-full flex-col items-center gap-2 px-20 py-10">
       <h2 className="text-xl font-bold">Comments</h2>
       {issueComments.map((comment, index) => (
-        <CommentCard comment={comment} key={index} />
+        <CommentCard
+          comment={comment}
+          key={comment.user.login + String(index)}
+        />
       ))}
       {noMoreComments ? (
         <div>No more comments</div>
@@ -79,16 +84,20 @@ import { Button } from "./ui/button";
 import LoadingCircle from "./ui/icons/loading-circle";
 import { useAuth } from "@/lib/contexts/AuthContext";
 
-function CommentCard({ comment }: { comment: IssueComment }) {
+interface IssueCommentProps {
+  readonly comment: IssueComment;
+}
+  
+function CommentCard({ comment }: IssueCommentProps) {
   return (
     <div className="relative my-1 flex w-full items-center space-x-2 rounded-md border p-3 ">
       <Avatar className=" aspect-square">
         <AvatarImage
-          src={comment.user.avatar_url as string}
-          alt={(comment.user.login as string).substring(0, 2)}
+          src={comment.user.avatar_url}
+          alt={(comment.user.login).substring(0, 2)}
         />
         <AvatarFallback>
-          {(comment.user.login as string).substring(0, 2)}
+          {(comment.user.login).substring(0, 2)}
         </AvatarFallback>
       </Avatar>
       <div className="flex-1 space-y-1">
