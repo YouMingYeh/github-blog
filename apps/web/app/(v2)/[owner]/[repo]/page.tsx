@@ -108,12 +108,12 @@ export default function Page() {
   return (
     <div className="z-0 p-3">
       <h1 className="text-center text-3xl font-bold">Posts</h1>
-      <div className="h-96 w-full ">
+      <div className="h-96 w-screen p-3">
         {issues.length == 0 ? (
           <div className="grid grid-cols-1  gap-3 py-10 md:grid-cols-2 lg:grid-cols-3">
-            <Skeleton className="group relative block h-48 w-96  rounded-xl lg:w-72" />
-            <Skeleton className="group relative block h-48 rounded-xl md:w-96 lg:w-72" />
-            <Skeleton className="group relative block h-48 rounded-xl md:w-96 lg:w-72" />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
           </div>
         ) : (
           <HoverEffect items={mappedIssues} />

@@ -11,6 +11,7 @@ export const markdownToHtml = (markdown: string) => {
     }
     return html;
   } catch (e) {
+    console.warn("Error converting markdown to HTML", e);
     return markdown;
   }
 };
