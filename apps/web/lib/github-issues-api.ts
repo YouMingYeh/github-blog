@@ -63,7 +63,7 @@ export const createIssue = async (
   { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
   try {
-    return fetchGitHubAPI<GitHubIssue>("issues", {
+    return await fetchGitHubAPI<GitHubIssue>("issues", {
       method: "POST",
       body: issue,
       token,
@@ -84,7 +84,7 @@ export const getIssues = async ({
   params,
 }: GitHubOptions = {}): GitHubResponse<GitHubIssue[]> => {
   try {
-    return fetchGitHubAPI<GitHubIssue[]>("issues", {
+    return await fetchGitHubAPI<GitHubIssue[]>("issues", {
       method: "GET",
       token: token,
       owner: owner,
@@ -102,7 +102,7 @@ export const getIssue = async (
   { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
   try {
-    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+    return await fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
       method: "GET",
       token,
       owner,
@@ -121,7 +121,7 @@ export const updateIssue = async (
   { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
   try {
-    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+    return await fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
       method: "PATCH",
       body: issue,
       token,
@@ -140,7 +140,7 @@ export const closeIssue = async (
   { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<GitHubIssue> => {
   try {
-    return fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
+    return await fetchGitHubAPI<GitHubIssue>(`issues/${issue_number}`, {
       method: "PATCH",
       body: { state: "closed" },
       token,
@@ -159,13 +159,16 @@ export const getIssueComments = async (
   { token, owner, repo, params }: GitHubOptions = {},
 ): GitHubResponse<IssueComment[]> => {
   try {
-    return fetchGitHubAPI<IssueComment[]>(`issues/${issue_number}/comments`, {
-      method: "GET",
-      token,
-      owner,
-      repo,
-      params,
-    });
+    return await fetchGitHubAPI<IssueComment[]>(
+      `issues/${issue_number}/comments`,
+      {
+        method: "GET",
+        token,
+        owner,
+        repo,
+        params,
+      },
+    );
   } catch (error) {
     console.error("GitHub API error", error);
     throw error;
