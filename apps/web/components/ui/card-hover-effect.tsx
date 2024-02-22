@@ -113,7 +113,7 @@ export const CardDescription = ({
   return (
     <p
       className={cn(
-        "mt-8 text-sm leading-relaxed tracking-wide text-zinc-600 dark:text-slate-300",
+        "mt-8 max-h-32 overflow-scroll text-sm leading-relaxed tracking-wide text-zinc-600 dark:text-slate-300",
         className,
       )}
       dangerouslySetInnerHTML={{ __html: content }} // Using dangerouslySetInnerHTML

@@ -94,13 +94,13 @@ export default function Page() {
 
   const mappedIssues = useMemo(() => {
     return issues.map((issue) => {
+      const title = issue.title;
+      const description = issue.body;
+      const link = `/posts/${issue.number}`;
       return {
-        title: issue.title,
-        description:
-          issue.body?.length > 100
-            ? `${issue.body?.slice(0, 100)}...`
-            : issue.body,
-        link: `/posts/${issue.number}`,
+        title: title,
+        description: description,
+        link: link,
       };
     });
   }, [issues]);
