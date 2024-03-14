@@ -13,29 +13,32 @@ import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// Constants for pagination and fetching
 const SCROLL_THRESHOLD = 80;
 const PER_PAGE = 10;
 const DIRECTION = "asc";
 const FETCH_DELAY = 5000;
 
 export default function Page() {
-  const [issues, setIssues] = useState<GitHubIssue[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  // Get the token from the auth context
   const { token } = useAuth();
 
+  // Get the router and navigation related hooks
   const router = useRouter();
-
   const searchParams = useSearchParams();
-
   const pathname = usePathname();
-
   const params = useParams();
   const { owner, repo }: { owner?: string; repo?: string } = params;
 
+  // Get the current scroll position from the custom hook
   const scrollPosition = useScrollPosition();
 
+  const [issues, setIssues] = useState<GitHubIssue[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
   const fetchData = useCallback(async () => {
+    // Prepare parameters for the GitHub API call
     const params = {
       page: searchParams.get("page"),
       per_page: String(PER_PAGE),
@@ -50,6 +53,7 @@ export default function Page() {
     });
 
     setLoading(false);
+    // Stop loading and return if there are no issues
     if (issues.length === 0 || !issues.length) {
       return;
     }
@@ -92,6 +96,7 @@ export default function Page() {
     }
   }, []);
 
+  // Map the issues to the HoverEffect component, which is to improve the readability and performance
   const mappedIssues = useMemo(() => {
     return issues.map((issue) => {
       const title = issue.title;

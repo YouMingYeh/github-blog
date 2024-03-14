@@ -19,7 +19,15 @@ import { SaveAllIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { generateJSON } from "@tiptap/react";
 import { closeIssue, getIssue, updateIssue } from "@/lib/github-issues-api";
+import Link from "next/link";
+import LoadingCircle from "@/components/ui/icons/loading-circle";
+import IssueComments from "@/components/IssueCommentsView";
+import { markdownToHtml } from "@/lib/converter";
+import CustomEditor from "@/components/CustomEditor";
+import TitleEditor from "@/components/TitleEditor";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
+// Extensions for the editor
 const extensions = [
   starterKit,
   horizontalRule,
@@ -32,17 +40,10 @@ const extensions = [
   placeholder,
 ];
 
-import Link from "next/link";
-import LoadingCircle from "@/components/ui/icons/loading-circle";
-import IssueComments from "@/components/IssueCommentsView";
-import { markdownToHtml } from "@/lib/converter";
-import CustomEditor from "@/components/CustomEditor";
-import TitleEditor from "@/components/TitleEditor";
-import { useAuth } from "@/lib/contexts/AuthContext";
-
 export default function Page() {
-  const { id, owner, repo } = useParams();
   const { token } = useAuth();
+  
+  const { id, owner, repo } = useParams();
   const router = useRouter();
 
   // Editor State
@@ -76,11 +77,14 @@ export default function Page() {
       },
     );
     setSaveStatus("Saved");
+    // Revalidate the data cache and full router cache with Next.js route handler
     await fetch("/api/revalidate");
+
+    // Invalidate the router cache
     router.refresh();
   }, [id, title, htmlContent, router]);
 
-  // Debounce updates
+  // Debounce updates, so it won't update too frequently
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
     setContent(json);
@@ -89,7 +93,6 @@ export default function Page() {
     await updateRemote();
   }, autoSaveInterval * 1000);
 
-  // Initial data fetch
   useEffect(() => {
     const fetchData = async () => {
       const issue = await getIssue(Number(id), {
@@ -109,6 +112,7 @@ export default function Page() {
 
   useEffect(() => {
     (async () => {
+      // Save the content if the user click save
       if (saveStatus === "Saving...") {
         await updateRemote();
       }
@@ -122,9 +126,14 @@ export default function Page() {
         owner: owner as string,
         repo: repo as string,
       });
-      router.refresh();
-      await fetch("/api/revalidate");
 
+      // Revalidate the data cache and full router cache with Next.js route handler
+      await fetch("/api/revalidate");
+      
+      // Invalidate the router cache
+      router.refresh();
+
+      // Redirect to the repo page, and can not go back
       router.replace("/");
     }
   }

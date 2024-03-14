@@ -14,13 +14,15 @@ const defaultContextValue: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 export const AuthProvider = ({ children }) => {
+  // Use the session object from next-auth
   const { data: data } = useSession();
   const session = data as SessionWithToken;
+
+  // Define the state variable
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    // Assuming your session object has the token at session.token
     if (session?.token) {
       setToken(session.token);
     }
@@ -29,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session]);
 
+  // Memoize the context value to avoid unnecessary re-renders
   const authValue = useMemo(() => ({ token, user }), [token, user]);
 
   return (

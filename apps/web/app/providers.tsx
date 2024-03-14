@@ -34,6 +34,8 @@ interface ProvidersProps {
   readonly children: ReactNode;
 }
 
+
+// This is the main provider for the app. It wraps the entire app with the necessary providers for the app to function.
 export default function Providers({ children }: ProvidersProps) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 

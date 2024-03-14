@@ -16,6 +16,8 @@ const title = "GitHub Blog";
 const description =
   "GitHub Blog - Notion-style WYSIWYG editor with GitHub Issues as a CMS.";
 
+
+// Metadata for the site. It is used by the SEO component to generate the meta tags for the site.
 export const metadata: Metadata = {
   title,
   description,
@@ -42,6 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* This preconnect, prefetch header helps improve the performance when your project is depended on some third party APIs. */}
         <link rel="preconnect" href="https://api.github.com" />
 
         <link rel="dns-prefetch" href="https://api.github.com" />
@@ -50,6 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body>
+        {/* This is for speed insight functionality Vercel, which helps you monitor your site status. */}
         <SpeedInsights />
         <Providers>
           <div className="fixed right-1 top-1 z-20 flex gap-1">

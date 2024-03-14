@@ -1,21 +1,22 @@
 import { type MetadataRoute } from "next";
 
+// This is the robots.txt file for the site. It is used to control the web crawlers and the sitemap for the site.
 export default function robots(): MetadataRoute.Robots {
   const robots = {
     rules: [
       {
-        userAgent: "*", // Applies to all web crawlers
-        disallow: ["/private", "/tmp"], // Directories you don't want to be crawled
-        allow: ["/"], // Optionally, directories you explicitly want to be crawled
+        userAgent: "*",
+        disallow: ["/private", "/tmp"],
+        allow: ["/"]
       },
       {
-        userAgent: ["Googlebot", "Bingbot"], // Applies specifically to Google's and Bing's crawlers
-        disallow: ["/edit"], // Directories these crawlers can't access
-        allow: ["/"], // Directories specifically allowed for these crawlers
+        userAgent: ["Googlebot", "Bingbot"],
+        disallow: ["/edit"],
+        allow: ["/"], 
       },
     ],
-    sitemap: ["https://github-blog-blue.vercel.app"], // Location of your sitemap(s)
-    host: "github-blog-blue.vercel.app", // The preferred domain for accessing your site
+    sitemap: ["https://github-blog-blue.vercel.app"],
+    host: "github-blog-blue.vercel.app",
   };
   return robots;
 }

@@ -42,6 +42,8 @@ import { useAuth } from "@/lib/contexts/AuthContext";
 
 export default function Page() {
   const { id }: { id: string } = useParams();
+
+  // Auth State
   const { token } = useAuth();
   const router = useRouter();
 
@@ -55,7 +57,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [autoSaveInterval, setAutoSaveInterval] = useState(60);
 
-  // Fetch and update issue content
+  // Update remote GitHub issue
   const updateRemote = useCallback(async () => {
     if (title === "") {
       alert("Title cannot be empty");
@@ -67,11 +69,15 @@ export default function Page() {
     }
     await updateIssue(Number(id), { title, body: htmlContent }, { token });
     setSaveStatus("Saved");
+
+    // Revalidate the data cache and full router cache with Next.js route handler
     await fetch("/api/revalidate");
+
+    // Invalidate the router cache
     router.refresh();
   }, [id, title, htmlContent, router]);
 
-  // Debounce updates
+  // Debounce updates, so it won't update too frequently
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
     setContent(json);
@@ -80,7 +86,6 @@ export default function Page() {
     await updateRemote();
   }, autoSaveInterval * 1000);
 
-  // Initial data fetch
   useEffect(() => {
     const fetchData = async () => {
       const issue = await getIssue(Number(id), { token });
@@ -96,6 +101,7 @@ export default function Page() {
 
   useEffect(() => {
     (async () => {
+      // If the save status is "Saving..." (user click save), then update the remote
       if (saveStatus === "Saving...") {
         await updateRemote();
       }
@@ -105,9 +111,13 @@ export default function Page() {
   async function handleDeletePage() {
     if (confirm("Are you sure you want to delete this page?")) {
       await closeIssue(Number(id), { token });
-
-      router.refresh();
+      // Revalidate the data cache and full router cache with Next.js route handler
       await fetch("/api/revalidate");
+
+      // Invalidate the router cache
+      router.refresh();
+
+      // Redirect to home page and can not go back
       router.replace("/");
     }
   }

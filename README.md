@@ -32,6 +32,8 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 [Guide for using this app](https://github-blog-blue.vercel.app/posts/24)
 
 [App Route Tree Visualizer](https://github-blog-blue.vercel.app/visualizer)
+
+Note: the app utilized the Next.js App router caching features. There are some updates that are not optimistic, which is an intended behavior. The app is designed to be a blog, not a real-time application. The updates will be reflected after a page refresh. 
 ## Project Structure 
 1. This project was built on top of [Novel](https://novel.sh/), on top of Next.js App router, also a Turbo repository template, which gives scalability and flexibility to the project.
 2. File structure:

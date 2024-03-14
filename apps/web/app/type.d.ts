@@ -22,7 +22,6 @@ type User = {
   image?: string;
 };
 
-// Type for my custom session with token
 type SessionWithToken = {
   token?: string;
   user?: User;
